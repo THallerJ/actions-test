@@ -1,0 +1,17 @@
+.header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	background: gray;
+	padding: 1rem;
+}
+
+.auth {
+	display: flex;
+	flex-direction: row;
+	gap: 1em;
+}
+
+.title {
+	font-size: 1.5rem;
+}
