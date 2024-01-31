@@ -1,0 +1,8 @@
+@use '@/common/variables.scss' as vars;
+
+.main {
+  background: vars.$third;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

@@ -1,0 +1,52 @@
+@use '@/common/variables.scss' as vars;
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 6rem 1rem 6rem;
+
+  @include vars.md {
+    padding: 1rem 4rem 1rem 4rem;
+  }
+
+  @include vars.sm {
+    padding: 1rem 2rem 1rem 2rem;
+  }
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.itemDivider {
+  height: 1px;
+  background-color: vars.$third;
+  margin: 0 2rem 0 2rem;
+}
+
+.infoCol {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.songTitle {
+  color: vars.$textLight;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.artistTitle {
+  color: vars.$textDark;
+  font-size: 1rem;
+}
+
+.user {
+  color: vars.$text;
+  font-size: 0.875rem;
+  align-self: self-end;
+}

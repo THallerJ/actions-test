@@ -1,0 +1,25 @@
+.btnFlex {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1em;
+  padding-bottom: 1.25em;
+}
+
+.btn {
+  width: 8em;
+  padding: 0.5em;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.fm {
+  display: flex;
+  flex-direction: column;
+  width: 16em;
+}
+
+.wrapper {
+  width: 100%;
+}

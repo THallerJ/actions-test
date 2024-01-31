@@ -1,0 +1,27 @@
+@use '@/common/variables.scss' as vars;
+
+.header {
+  position: sticky;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background: vars.$dark;
+  padding: 0 2rem 0 2rem;
+  top: 0;
+  z-index: 100;
+  height: vars.$headerHeight;
+}
+
+.title {
+  color: vars.$heading;
+}
+
+.auth {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}
+
+.title {
+  font-size: 1.5rem;
+}

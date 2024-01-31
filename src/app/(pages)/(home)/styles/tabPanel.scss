@@ -1,0 +1,88 @@
+@use '@/common/variables.scss' as vars;
+
+$panelMargin: 1rem;
+
+.tabPanel {
+  margin-top: $panelMargin;
+  height: calc(100vh - vars.$headerHeight - $panelMargin);
+  width: 30%;
+  background-color: vars.$dark;
+  border-radius: 0.5rem 0.5rem 0 0;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 20px 0px rgba(0, 0, 0, 0.5);
+
+  @include vars.xl {
+    width: 40%;
+  }
+
+  @include vars.lg {
+    width: 60%;
+  }
+
+  @include vars.md {
+    width: 80%;
+  }
+
+  @include vars.sm {
+    height: calc(100vh - vars.$headerHeight);
+    margin-top: 0rem;
+    width: 100%;
+  }
+
+  a:link {
+    text-decoration: none;
+  }
+  a:visited {
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: none;
+  }
+  a:active {
+    text-decoration: none;
+  }
+}
+
+.search {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: vars.$secondary;
+  border-radius: 0.5rem 0.5rem 0 0;
+  padding: 1.5rem;
+
+  @include vars.md {
+    padding: 1rem;
+  }
+}
+
+.searchLabel {
+  font-size: 1.5rem;
+  padding-bottom: 1rem;
+}
+
+.searchInput {
+  border-style: none;
+  outline: 2px solid vars.$textDark;
+  font-size: 1.125rem;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  width: 75%;
+
+  &:focus {
+    outline: 2px solid vars.$dark;
+  }
+}
+
+.tabList {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  height: 100%;
+  flex: 1;
+  padding-bottom: 1rem;
+
+  @include vars.scrollbar(black);
+}

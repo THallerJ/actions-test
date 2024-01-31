@@ -1,0 +1,53 @@
+// colors
+$dark: hsl(214, 27%, 15%);
+$secondary: hsl(272, 19%, 50%);
+$third: hsl(235, 22%, 41%);
+$fourth: hsl(59, 36%, 75%);
+$heading: hsl(0, 0%, 60%);
+$text: hsl(0, 0%, 84%);
+$textLight: hsl(0, 0%, 95%);
+$textDark: hsl(0, 0%, 74%);
+
+// dims
+$headerHeight: 80px;
+
+// mixins
+@mixin sm {
+  @media (max-width: 490px) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media (max-width: 800px) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (max-width: 1200px) {
+    @content;
+  }
+}
+
+@mixin xl {
+  @media (max-width: 1600px) {
+    @content;
+  }
+}
+
+@mixin scrollbar($color: $secondary) {
+  &::-webkit-scrollbar {
+    border-radius: 10px;
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $color;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 10px;
+  }
+}

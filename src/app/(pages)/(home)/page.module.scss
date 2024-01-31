@@ -1,0 +1,11 @@
+@use '@/common/variables.scss' as vars;
+
+@use './styles/tabPanel.scss';
+@use './styles/tabItem.scss';
+
+.page {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: calc(100vh - vars.$headerHeight);
+}
