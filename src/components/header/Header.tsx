@@ -1,40 +1,46 @@
 'use client';
 import styles from './header.module.scss';
-import { useUser } from '@auth0/nextjs-auth0/client';
-import { ProtectedComponent } from '@/components';
+import { useState } from 'react';
 import Link from 'next/link';
+import AuthManager from './AuthManager';
+import MobileMenu from './MobileMenu';
+import { MenuButton } from '@/components';
 
 const Header = () => {
+  const [showMenu, setShowMenu] = useState(false);
+
+  const onNavigate = () => setShowMenu(false);
+
   return (
     <header className={styles.header}>
-      <Link href={'/'}>
-        <h1 className={styles.title}>Guitar Tab</h1>
-      </Link>
-      <Link href={'/tabeditor'}>Tab</Link>
+      <div className={styles.titleBlock}>
+        <Link href={'/'} className={styles.link}>
+          <h1 onClick={onNavigate} className={styles.title}>
+            Guitar Tab
+          </h1>
+        </Link>
+      </div>
+      <div className={styles.links}>
+        <Link href={'/tabeditor'} className={styles.linkLarge}>
+          View Tabs
+        </Link>
+        <Link href={'/tabeditor'} className={styles.linkLarge}>
+          Create Tab
+        </Link>
+        <Link href={'/tabeditor'} className={styles.linkLarge}>
+          My Tabs
+        </Link>
+      </div>
       <AuthManager />
+      <div className={styles.menuBtn}>
+        <MenuButton
+          onClick={() => setShowMenu(prev => !prev)}
+          toggled={showMenu}
+        />
+      </div>
+      <MobileMenu showMenu={showMenu} onNavigate={onNavigate} />
     </header>
   );
 };
 
 export default Header;
-
-const AuthManager = () => {
-  const { user } = useUser();
-
-  return (
-    <>
-      <ProtectedComponent protect>
-        <span>
-          Hello, {user?.name}. Your email is {user?.email}.
-        </span>
-        <a href="/api/auth/logout">Logout</a>
-      </ProtectedComponent>
-      <ProtectedComponent>
-        <div className={styles.auth}>
-          <a href="/api/auth/login">Login</a>
-          <a href="/api/auth/signup">Sign Up</a>
-        </div>
-      </ProtectedComponent>
-    </>
-  );
-};

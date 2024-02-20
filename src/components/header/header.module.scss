@@ -1,27 +1,48 @@
-@use '@/common/variables.scss' as vars;
+@use '@/common/variables.scss' as globals;
+@use './styles/variables.scss' as vars;
+@use './styles/desktopHeader.scss';
+@use './styles/mobileHeader.scss';
 
 .header {
   position: sticky;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background: vars.$dark;
+  align-items: center;
+  background: globals.$dark;
   padding: 0 2rem 0 2rem;
   top: 0;
   z-index: 100;
-  height: vars.$headerHeight;
+  height: globals.$headerHeight;
+  color: globals.$text;
 }
 
 .title {
-  color: vars.$heading;
+  display: inline;
+  color: globals.$heading;
+  text-decoration: none;
+  font-size: 1.25rem;
+}
+
+.titleBlock {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.profile {
+  flex: 1;
+  @include globals.hideDown(vars.$mobileBreakpoint);
 }
 
 .auth {
   display: flex;
-  flex-direction: row;
-  gap: 1em;
+  gap: 0.25rem;
+  align-items: flex-end;
+  justify-content: flex-end;
 }
 
-.title {
-  font-size: 1.5rem;
+.menuBtn {
+  @include globals.hideUp(vars.$mobileBreakpoint);
 }

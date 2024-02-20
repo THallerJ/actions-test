@@ -2,14 +2,20 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 
 type ProtectedComponentProps = {
   children: React.ReactNode;
-  protect?: boolean;
+  unprotected?: React.ReactNode;
+  fallback?: React.ReactNode;
 };
 
-const ProtectedComponent = ({ children, protect }: ProtectedComponentProps) => {
+const ProtectedComponent = ({
+  children,
+  unprotected,
+  fallback,
+}: ProtectedComponentProps) => {
   const { user, isLoading } = useUser();
 
-  if (protect) return user && !isLoading ? children : null;
-  else return !user && !isLoading ? children : null;
+  if (isLoading) return fallback || null;
+  if (user) return children;
+  if (!user) return unprotected || null;
 };
 
 export default ProtectedComponent;

@@ -1,5 +1,6 @@
 // colors
 $dark: hsl(214, 27%, 15%);
+$darker: hsl(214, 27%, 13%);
 $secondary: hsl(272, 19%, 50%);
 $third: hsl(235, 22%, 41%);
 $fourth: hsl(59, 36%, 75%);
@@ -9,7 +10,7 @@ $textLight: hsl(0, 0%, 95%);
 $textDark: hsl(0, 0%, 74%);
 
 // dims
-$headerHeight: 80px;
+$headerHeight: 60px;
 
 // mixins
 @mixin sm {
@@ -33,6 +34,18 @@ $headerHeight: 80px;
 @mixin xl {
   @media (max-width: 1600px) {
     @content;
+  }
+}
+
+@mixin hideDown($px) {
+  @media (max-width: $px) {
+    display: none;
+  }
+}
+
+@mixin hideUp($px) {
+  @media (min-width: $px) {
+    display: none;
   }
 }
 

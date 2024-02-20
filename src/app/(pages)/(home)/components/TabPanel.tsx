@@ -4,7 +4,7 @@ import styles from '../page.module.scss';
 
 const TabPanel = () => {
   return (
-    <div className={styles.tabPanel}>
+    <section id="tab-panel" className={styles.tabPanel}>
       <div className={styles.search}>
         <label htmlFor="tab_search" className={styles.searchLabel}>
           Search Tabs
@@ -19,7 +19,7 @@ const TabPanel = () => {
       <Suspense fallback="loading">
         <TabList />
       </Suspense>
-    </div>
+    </section>
   );
 };
 

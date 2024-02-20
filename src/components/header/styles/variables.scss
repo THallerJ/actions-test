@@ -1,0 +1,8 @@
+@use '@/common/variables.scss' as globals;
+$mobileBreakpoint: 1000px;
+$mobileBreakpoint: 1000px;
+
+.link {
+  text-decoration: none;
+  color: globals.$text;
+}

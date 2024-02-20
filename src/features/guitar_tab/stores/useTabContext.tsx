@@ -1,6 +1,7 @@
 import { createContext, useState, useContext, useEffect } from 'react';
-import { Tab, ReducerAction } from '../common/tab.type';
+import { ReducerAction } from '../common/tab.type';
 import useTabReducer from './useTabReducer';
+import { Tab } from '@/common/types.type';
 
 type TabContextProps = {
   activeKey: string | null;

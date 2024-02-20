@@ -1,0 +1,52 @@
+@use '@/common/variables.scss' as globals;
+@use './variables.scss' as vars;
+
+.mobileMenu {
+  background-color: globals.$dark;
+  opacity: 0;
+  position: fixed;
+  padding-top: 1px;
+  height: calc(100vh + 1px);
+  width: 100%;
+  top: 100vh;
+  left: 0;
+  transition: transform 500ms, opacity 400ms;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: large;
+}
+
+.linkMobile {
+  @extend .link;
+  font-size: xx-large;
+}
+
+.linksMobile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4rem;
+}
+
+.mobileMenuTransform {
+  transform: translateY(calc(-100vh + globals.$headerHeight - 1px));
+  opacity: 100;
+  @include globals.hideUp(vars.$mobileBreakpoint);
+}
+
+.profileMobile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.loggedInMobile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}

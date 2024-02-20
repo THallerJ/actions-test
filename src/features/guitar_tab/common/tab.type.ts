@@ -1,10 +1,3 @@
-export type Tab = {
-  user?: string;
-  count: number;
-  gtr_string_count: number;
-  notes: Record<number, Record<number, string>>;
-};
-
 export type ReducerAction =
   | { type: 'ADD_STAFF' | 'DELETE_STAFF' }
   | {

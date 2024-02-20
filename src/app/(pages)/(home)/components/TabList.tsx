@@ -10,6 +10,7 @@ const TabList = async () => {
     <div className={styles.tabList}>
       {tabs?.map((item, i) => (
         <Link
+          key={item._id}
           href={{
             pathname: `/tabviewer/` + item._id,
           }}

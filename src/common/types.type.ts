@@ -1,8 +1,7 @@
 import { z } from 'zod';
-import { ObjectId } from 'mongodb';
 
 export const TabSchema = z.object({
-  _id: z.instanceof(ObjectId).optional(),
+  _id: z.string().optional(),
   title: z.string().optional(),
   artist: z.string().optional(),
   isPrivate: z.boolean().optional(),

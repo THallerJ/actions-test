@@ -1,0 +1,70 @@
+@use '@/common/variables.scss' as vars;
+@use './animation.scss';
+
+.menu {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 32px;
+  height: 32px;
+  justify-content: space-evenly;
+  background: none;
+  border: none;
+}
+
+.menuItem {
+  background-color: vars.$textDark;
+  width: 100%;
+  height: 3px;
+  position: absolute;
+  left: 0;
+}
+
+.animated {
+  animation-duration: 400ms;
+  animation-fill-mode: both;
+}
+
+.topMenu {
+  @extend .menuItem;
+  top: 7px;
+
+  &.open {
+    animation-name: top-menu;
+    @extend .animated;
+  }
+
+  &.closed {
+    animation-name: top-menu-rev;
+    @extend .animated;
+  }
+}
+
+.midMenu {
+  @extend .menuItem;
+
+  &.open {
+    animation-name: mid-menu;
+    @extend .animated;
+  }
+
+  &.closed {
+    animation-name: mid-menu-rev;
+    @extend .animated;
+  }
+}
+
+.bottomMenu {
+  @extend .menuItem;
+  bottom: 7px;
+
+  &.open {
+    animation-name: bottom-menu;
+    @extend .animated;
+  }
+
+  &.closed {
+    animation-name: bottom-menu-rev;
+    @extend .animated;
+  }
+}
