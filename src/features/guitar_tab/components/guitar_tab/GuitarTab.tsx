@@ -1,7 +1,7 @@
 'use client';
 import GuitarTabChild from './GuitarTabChild';
 import { TabContextProvider } from '../../stores/useTabContext';
-import { Tab } from '@/common/types.type';
+import { Tab } from '@/common/types.';
 import styles from './guitar_tab.module.scss';
 
 type GuitarTabProps = {

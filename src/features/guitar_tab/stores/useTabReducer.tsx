@@ -1,6 +1,6 @@
 import { useReducer } from 'react';
 import { ReducerAction } from '../common/tab.type';
-import { Tab } from '@/common/types.type';
+import { Tab } from '@/common/types.';
 
 const useTabReducer = (initialTab?: Tab | null) => {
   const reducer = (state: Tab, action: ReducerAction): Tab => {

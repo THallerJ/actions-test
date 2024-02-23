@@ -1,5 +1,5 @@
 'use client';
-import styles from './header.module.scss';
+import styles from './styles/header.module.scss';
 import { useState } from 'react';
 import Link from 'next/link';
 import AuthManager from './AuthManager';
@@ -20,17 +20,17 @@ const Header = () => {
           </h1>
         </Link>
       </div>
-      <div className={styles.links}>
-        <Link href={'/tabeditor'} className={styles.linkLarge}>
+      <nav className={styles.nav}>
+        <Link href={'/'} className={styles.linkLarge}>
           View Tabs
         </Link>
-        <Link href={'/tabeditor'} className={styles.linkLarge}>
+        <Link href={'/tab_editor'} className={styles.linkLarge}>
           Create Tab
         </Link>
-        <Link href={'/tabeditor'} className={styles.linkLarge}>
+        <Link href={'/my_tabs'} className={styles.linkLarge}>
           My Tabs
         </Link>
-      </div>
+      </nav>
       <AuthManager />
       <div className={styles.menuBtn}>
         <MenuButton

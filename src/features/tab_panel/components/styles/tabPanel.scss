@@ -3,6 +3,7 @@
 $panelMargin: 1rem;
 
 .tabPanel {
+  position: relative;
   margin-top: $panelMargin;
   height: calc(100vh - vars.$headerHeight - $panelMargin);
   width: 30%;
@@ -20,11 +21,7 @@ $panelMargin: 1rem;
     width: 60%;
   }
 
-  @include vars.md {
-    width: 80%;
-  }
-
-  @include vars.sm {
+  @include vars.smd {
     height: calc(100vh - vars.$headerHeight);
     margin-top: 0rem;
     width: 100%;
@@ -44,45 +41,33 @@ $panelMargin: 1rem;
   }
 }
 
-.search {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: vars.$secondary;
-  border-radius: 0.5rem 0.5rem 0 0;
-  padding: 1.5rem;
-
-  @include vars.md {
-    padding: 1rem;
-  }
-}
-
-.searchLabel {
-  font-size: 1.5rem;
-  padding-bottom: 1rem;
-}
-
-.searchInput {
-  border-style: none;
-  outline: 2px solid vars.$textDark;
-  font-size: 1.125rem;
-  padding: 0.5rem;
-  border-radius: 0.25rem;
-  width: 75%;
-
-  &:focus {
-    outline: 2px solid vars.$dark;
-  }
+.wrapper {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
 }
 
 .tabList {
   display: flex;
   flex-direction: column;
-  overflow: auto;
+  overflow-y: auto;
   height: 100%;
   flex: 1;
   padding-bottom: 1rem;
 
   @include vars.scrollbar(black);
+}
+
+.spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.loadingBar {
+  position: absolute;
+  width: 100%;
+  top: 2px;
+  left: 0;
 }

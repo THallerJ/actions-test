@@ -12,7 +12,7 @@ const TabForm = () => {
       <div>
         <input type="text" name="title" />
         <input type="text" name="artist" />
-        <input type="checkbox" name="isPrivate" id="usPrivate" />
+        <input type="checkbox" name="Isprivate" id="Isprivate" />
         <label htmlFor="isPrivate">Private</label>
         <input type="hidden" name="user" value={user?.nickname || ''} />
         <input type="hidden" name="tab" value={JSON.stringify(tab)} />

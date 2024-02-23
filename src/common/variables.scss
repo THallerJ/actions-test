@@ -19,6 +19,12 @@ $headerHeight: 60px;
   }
 }
 
+@mixin smd {
+  @media (max-width: 600px) {
+    @content;
+  }
+}
+
 @mixin md {
   @media (max-width: 800px) {
     @content;

@@ -4,6 +4,7 @@ import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { Header } from '@/components';
 import './globals.scss';
 import styles from './layout.module.scss';
+import ReactQueryWrapper from './ReactQueryWrapper';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,10 +21,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <UserProvider>
-        <body className={inter.className}>
-          <Header />
-          <main className={styles.main}>{children}</main>
-        </body>
+        <ReactQueryWrapper>
+          <body className={inter.className}>
+            <Header />
+            <main className={styles.main}>{children}</main>
+          </body>
+        </ReactQueryWrapper>
       </UserProvider>
     </html>
   );

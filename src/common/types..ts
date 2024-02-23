@@ -4,7 +4,7 @@ export const TabSchema = z.object({
   _id: z.string().optional(),
   title: z.string().optional(),
   artist: z.string().optional(),
-  isPrivate: z.boolean().optional(),
+  private: z.boolean().optional(),
   user: z.string().optional(),
   count: z.number(),
   gtr_string_count: z.number(),
@@ -13,6 +13,4 @@ export const TabSchema = z.object({
 
 export type Tab = z.infer<typeof TabSchema>;
 
-export const TabsApiSchema = z.object({
-  data: z.array(TabSchema) || z.object({}),
-});
+export const TabsArraySchema = z.array(TabSchema);

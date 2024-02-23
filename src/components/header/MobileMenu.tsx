@@ -1,5 +1,5 @@
 import AuthManager from './AuthManager';
-import styles from './header.module.scss';
+import styles from './styles/header.module.scss';
 import Link from 'next/link';
 
 type MobileMenuProps = {
@@ -13,29 +13,25 @@ const MobileMenu = ({ showMenu, onNavigate }: MobileMenuProps) => {
       className={`${styles.mobileMenu} 
         ${showMenu ? styles.mobileMenuTransform : null}`}
     >
-      <div className={styles.linksMobile}>
-        <Link
-          href={'/tabeditor'}
-          className={styles.linkMobile}
-          onClick={onNavigate}
-        >
+      <nav className={styles.navMobile}>
+        <Link href={'/'} className={styles.linkMobile} onClick={onNavigate}>
           View Tabs
         </Link>
         <Link
-          href={'/tabeditor'}
+          href={'/tab_editor'}
           className={styles.linkMobile}
           onClick={onNavigate}
         >
           Create Tab
         </Link>
         <Link
-          href={'/tabeditor'}
+          href={'/my_tabs'}
           className={styles.linkMobile}
           onClick={onNavigate}
         >
           My Tabs
         </Link>
-      </div>
+      </nav>
       <AuthManager isMobile />
     </div>
   );

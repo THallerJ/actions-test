@@ -6,7 +6,7 @@ type Params = { params: { id: string } };
 const TabViewerPage = ({ params: { id } }: Params) => {
   return (
     <Suspense fallback="loading">
-      <DisplayTab id={id} />;
+      <DisplayTab id={id} />
     </Suspense>
   );
 };

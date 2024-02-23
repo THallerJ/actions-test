@@ -1,0 +1,31 @@
+@use '@/common/variables.scss' as vars;
+
+$height: 2px;
+
+@keyframes anim {
+  0% {
+    left: -30%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.loading {
+  width: 100%;
+  height: $height;
+  position: relative;
+  background-color: vars.$textDark;
+
+  &:before {
+    content: '';
+    background-color: gray;
+    width: 30%;
+    height: $height;
+    position: absolute;
+    top: 0;
+    left: -30%;
+    animation: anim 1s infinite linear;
+    animation-fill-mode: both;
+  }
+}

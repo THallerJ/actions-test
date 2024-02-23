@@ -1,27 +1,118 @@
-import clientPromise from '@/db/config';
-import { Tab } from '@/common/types.type';
+import { getCollection } from '@/db/config';
+import { Tab } from '@/common/types.';
 import { ObjectId } from 'mongodb';
-import { TabSchema } from '@/common/types.type';
+import { TabSchema, TabsArraySchema } from '@/common/types.';
 
-export const getTabsArrayDb = async () => {
+const getAggPipeline = (
+  pageSize: number,
+  eqFn: unknown[],
+  lastId?: string | null,
+  searchQuery?: string | null
+) => {
+  return [
+    {
+      $match: {
+        $expr: {
+          $cond: {
+            if: {
+              $and: [{ $ne: [lastId, null] }, { $ne: [lastId, undefined] }],
+            },
+            then: {
+              $and: [
+                {
+                  $lt: [
+                    { $toDate: '$_id' },
+                    { $toDate: new ObjectId(lastId as string) },
+                  ],
+                },
+                { $eq: eqFn },
+              ],
+            },
+            else: { $eq: eqFn },
+          },
+        },
+      },
+    },
+    {
+      $match: {
+        $expr: {
+          $cond: {
+            if: {
+              $and: [
+                { $ne: [searchQuery, null] },
+                { $ne: [searchQuery, undefined] },
+              ],
+            },
+            then: { $regexMatch: { input: '$title', regex: searchQuery } },
+            else: {},
+          },
+        },
+      },
+    },
+    { $sort: { _id: -1 } },
+    { $limit: pageSize },
+    {
+      $addFields: {
+        _id: {
+          $toString: '$_id',
+        },
+      },
+    },
+  ];
+};
+
+export const getTabsPageDb = async (
+  lastId?: string | null,
+  searchQuery?: string
+) => {
+  const pageSize = 15;
+
   try {
-    const client = await clientPromise;
-    const collection = client.db('guitar_tab_db').collection<Tab>('tabs');
-    const data = await collection.find().toArray();
-    return data;
+    const collection = await getCollection();
+
+    const docs = await collection
+      .aggregate(
+        getAggPipeline(pageSize, [{ $toBool: '$private' }, false], lastId)
+      )
+      .toArray();
+
+    return TabsArraySchema.parse(docs);
   } catch (e: unknown) {
     console.log(e);
   }
+
+  return null;
 };
 
+export const getUserTabsPageDb = async (
+  user: string | null,
+  lastId: string | null
+) => {
+  const pageSize = 15;
+
+  try {
+    const collection = await getCollection();
+
+    const docs = await collection
+      .aggregate(getAggPipeline(pageSize, ['$user', user], lastId))
+      .toArray();
+
+    return TabsArraySchema.parse(docs);
+  } catch (e: unknown) {
+    console.log(e);
+  }
+
+  return null;
+};
+
+// todo: fox private to make it behave like in getTabsPageDb. Only work if not private or user matches user in tab. otherwise return null
 export const getTabDb = async (id: string): Promise<Tab | null> => {
   try {
     if (ObjectId.isValid(id)) {
-      const client = await clientPromise;
-      const collection = client.db('guitar_tab_db').collection<Tab>('tabs');
+      const collection = await getCollection();
 
-      const data = collection.aggregate([
-        { $match: { _id: new ObjectId(id), isPrivate: false } },
+      const agg = collection.aggregate([
+        { $match: { _id: new ObjectId(id) } },
         {
           $addFields: {
             _id: {
@@ -31,8 +122,8 @@ export const getTabDb = async (id: string): Promise<Tab | null> => {
         },
       ]);
 
-      const document = await data.next();
-      return TabSchema.parse(document);
+      const doc = await agg.next();
+      return TabSchema.parse(doc);
     }
   } catch (e: unknown) {
     console.log(e);
@@ -42,8 +133,7 @@ export const getTabDb = async (id: string): Promise<Tab | null> => {
 
 export const saveTabDb = async (tab: Tab) => {
   try {
-    const client = await clientPromise;
-    const collection = client.db('guitar_tab_db').collection<Tab>('tabs');
+    const collection = await getCollection();
     await collection.insertOne(tab);
   } catch (e: unknown) {
     console.log(e);

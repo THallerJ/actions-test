@@ -1,4 +1,4 @@
-import styles from './header.module.scss';
+import styles from './styles/header.module.scss';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Link from 'next/link';
 import { ProtectedComponent } from '@/components';

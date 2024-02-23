@@ -1,12 +1,13 @@
-import { unstable_noStore as noStore } from 'next/cache';
-import styles from './page.module.scss';
-import TabPanel from './components/TabPanel';
+import { TabPanel } from '@/features/tab_panel';
 
 const Home = async () => {
   return (
-    <div className={styles.page}>
-      <TabPanel />
-    </div>
+    <TabPanel
+      apiRoute="api/tabs/all"
+      queryKey="allTabs"
+      title="All Tabs"
+      showCreator
+    />
   );
 };
 

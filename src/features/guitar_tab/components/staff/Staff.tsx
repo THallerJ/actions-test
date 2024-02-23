@@ -6,7 +6,7 @@ import { ClickAway } from '@/components';
 const Staff = () => {
   const { tab, setShowInput } = useTabContext();
 
-  const renderNotes = (): React.ReactNode => {
+  const RenderNotes = (): React.ReactNode => {
     const res = [];
 
     for (let note = 0; note < tab.count; note++) {
@@ -41,7 +41,7 @@ const Staff = () => {
 
   return (
     <ClickAway callback={() => setShowInput(false)}>
-      <div className={styles.tab_col}>{renderNotes()}</div>
+      <div className={styles.tab_col}>{RenderNotes()}</div>
     </ClickAway>
   );
 };
