@@ -1,9 +1,9 @@
 import { useReducer } from 'react';
 import { ReducerAction } from '../common/tab.type';
-import { Tab } from '@/common/types.';
+import { TabEditable } from '@/common/types.';
 
-const useTabReducer = (initialTab?: Tab | null) => {
-  const reducer = (state: Tab, action: ReducerAction): Tab => {
+const useTabReducer = (initialTab?: TabEditable | null) => {
+  const reducer = (state: TabEditable, action: ReducerAction): TabEditable => {
     switch (action.type) {
       case 'ADD_NOTE': {
         const gtrStr = action.payload.gtrStr;
@@ -64,7 +64,7 @@ export default useTabReducer;
 
 const TAB_COUNT = 20;
 
-const INITIAL_TAB: Tab = {
+const INITIAL_TAB: TabEditable = {
   count: 20,
   gtr_string_count: 6,
   notes: {},

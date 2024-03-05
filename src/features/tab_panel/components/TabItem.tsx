@@ -1,9 +1,9 @@
-import { Tab } from '@/common/types.';
+import { TabSelectable } from '@/common/types.';
 import styles from './styles/tab_panel.module.scss';
 import { useTabPanelContext } from '../stores/useTabPanelContext';
 
 type TabItemProps = {
-  item: Tab;
+  item: TabSelectable;
 };
 
 const TabItem = ({ item }: TabItemProps) => {

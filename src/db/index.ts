@@ -1,140 +1,84 @@
-import { getCollection } from '@/db/config';
-import { Tab } from '@/common/types.';
-import { ObjectId } from 'mongodb';
-import { TabSchema, TabsArraySchema } from '@/common/types.';
+import { TabInsertable, TabSelectable } from '@/common/types.';
+import { db } from './config';
+import { sql } from 'kysely';
+import { getSession } from '@auth0/nextjs-auth0';
 
-const getAggPipeline = (
-  pageSize: number,
-  eqFn: unknown[],
-  lastId?: string | null,
+export const getTabsArrayDb = async (
+  page: number,
+  user?: string | null,
   searchQuery?: string | null
-) => {
-  return [
-    {
-      $match: {
-        $expr: {
-          $cond: {
-            if: {
-              $and: [{ $ne: [lastId, null] }, { $ne: [lastId, undefined] }],
-            },
-            then: {
-              $and: [
-                {
-                  $lt: [
-                    { $toDate: '$_id' },
-                    { $toDate: new ObjectId(lastId as string) },
-                  ],
-                },
-                { $eq: eqFn },
-              ],
-            },
-            else: { $eq: eqFn },
-          },
-        },
-      },
-    },
-    {
-      $match: {
-        $expr: {
-          $cond: {
-            if: {
-              $and: [
-                { $ne: [searchQuery, null] },
-                { $ne: [searchQuery, undefined] },
-              ],
-            },
-            then: { $regexMatch: { input: '$title', regex: searchQuery } },
-            else: {},
-          },
-        },
-      },
-    },
-    { $sort: { _id: -1 } },
-    { $limit: pageSize },
-    {
-      $addFields: {
-        _id: {
-          $toString: '$_id',
-        },
-      },
-    },
-  ];
-};
-
-export const getTabsPageDb = async (
-  lastId?: string | null,
-  searchQuery?: string
-) => {
+): Promise<{
+  tabs: TabSelectable[];
+  hasNextPage: boolean;
+  nextPage: number;
+}> => {
   const pageSize = 15;
 
   try {
-    const collection = await getCollection();
+    let query = db.selectFrom('tab').selectAll();
 
-    const docs = await collection
-      .aggregate(
-        getAggPipeline(pageSize, [{ $toBool: '$private' }, false], lastId)
-      )
-      .toArray();
+    if (user) query = query.where('user', '=', user);
+    else query = query.where('private', '=', false);
 
-    return TabsArraySchema.parse(docs);
-  } catch (e: unknown) {
-    console.log(e);
-  }
+    if (searchQuery)
+      query = query.where(({ eb }) =>
+        eb('title', 'like', `%${searchQuery}%`).or(
+          'artist',
+          'like',
+          `%${searchQuery}%`
+        )
+      );
 
-  return null;
-};
-
-export const getUserTabsPageDb = async (
-  user: string | null,
-  lastId: string | null
-) => {
-  const pageSize = 15;
-
-  try {
-    const collection = await getCollection();
-
-    const docs = await collection
-      .aggregate(getAggPipeline(pageSize, ['$user', user], lastId))
-      .toArray();
-
-    return TabsArraySchema.parse(docs);
-  } catch (e: unknown) {
-    console.log(e);
-  }
-
-  return null;
-};
-
-// todo: fox private to make it behave like in getTabsPageDb. Only work if not private or user matches user in tab. otherwise return null
-export const getTabDb = async (id: string): Promise<Tab | null> => {
-  try {
-    if (ObjectId.isValid(id)) {
-      const collection = await getCollection();
-
-      const agg = collection.aggregate([
-        { $match: { _id: new ObjectId(id) } },
-        {
-          $addFields: {
-            _id: {
-              $toString: '$_id',
-            },
-          },
-        },
+    if (searchQuery)
+      query = query.orderBy([
+        sql`case when title=${searchQuery} then 0 else 1 end`,
+        sql`case when artist=${searchQuery} then 0 else 1 end`,
+        'created_at desc',
       ]);
+    else query = query.orderBy('created_at desc');
 
-      const doc = await agg.next();
-      return TabSchema.parse(doc);
+    // we add 1 to page size so we know if the next page exists
+    query = query.offset(page * pageSize).limit(pageSize + 1);
+
+    const tabs = await query.execute();
+
+    let hasNextPage = false;
+    if (tabs.length === pageSize + 1) {
+      hasNextPage = true;
+      tabs.pop();
     }
+
+    return { tabs, hasNextPage, nextPage: page + 1 };
+  } catch (e: unknown) {
+    console.log(e);
+  }
+
+  return { tabs: [], hasNextPage: false, nextPage: 0 };
+};
+
+export const getTabDb = async (id: string) => {
+  try {
+    const result = await db
+      .selectFrom('tab')
+      .selectAll()
+      .where('id', '=', Number(id))
+      .executeTakeFirstOrThrow();
+
+    const session = await getSession();
+    const user = session?.user;
+
+    if (user?.nickname !== result.user && result.private === true) return null;
+
+    return result;
   } catch (e: unknown) {
     console.log(e);
   }
   return null;
 };
 
-export const saveTabDb = async (tab: Tab) => {
+export const saveTabDb = async (tab: TabInsertable) => {
   try {
-    const collection = await getCollection();
-    await collection.insertOne(tab);
+    await db.insertInto('tab').values(tab).executeTakeFirstOrThrow();
   } catch (e: unknown) {
     console.log(e);
   }

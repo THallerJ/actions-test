@@ -1,14 +1,14 @@
 import { createContext, useState, useContext, useEffect } from 'react';
 import { ReducerAction } from '../common/tab.type';
 import useTabReducer from './useTabReducer';
-import { Tab } from '@/common/types.';
+import { TabEditable } from '@/common/types.';
 
 type TabContextProps = {
   activeKey: string | null;
   setActiveKey: React.Dispatch<React.SetStateAction<string | null>>;
   showInput: boolean;
   setShowInput: React.Dispatch<React.SetStateAction<boolean>>;
-  tab: Tab;
+  tab: TabEditable;
   tabDispatch: React.Dispatch<ReducerAction>;
   readOnly: boolean;
 };
@@ -16,7 +16,7 @@ type TabContextProps = {
 export const TabContext = createContext<TabContextProps | null>(null);
 
 type TabContextProviderProps = {
-  initialTab?: Tab | null;
+  initialTab?: TabEditable | null;
   children: React.ReactNode;
 };
 

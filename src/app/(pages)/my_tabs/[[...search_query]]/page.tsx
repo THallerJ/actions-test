@@ -7,8 +7,8 @@ const MyTabsPage: NextPage = withPageAuthRequired(
     return (
       <TabPanel
         title="My Tabs"
-        queryKey="myTabs"
         apiRoute="api/tabs/user"
+        route="my_tabs/"
         showCreator={false}
       />
     );

@@ -1,30 +1,36 @@
-import { createContext, useContext, useState } from 'react';
-import { TabPanelContextProviderProps } from '../common/types';
+import { createContext, useContext } from 'react';
+import { useSearchParams } from 'next/navigation';
 
-type TabPanelProps = {
-  queryKey: string;
+type TabPanelContextProps = {
   apiRoute: string;
+  route: string;
   showCreator?: boolean;
   searchQuery: string | null;
-  setSearchQuery: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
-export const TabPanelContext = createContext<TabPanelProps | null>(null);
+export const TabPanelContext = createContext<TabPanelContextProps | null>(null);
+
+type TabPanelContextProviderProps = {
+  apiRoute: string;
+  route: string;
+  showCreator?: boolean;
+  children: React.ReactNode;
+};
 
 export const TabPanelContextProvider = ({
-  queryKey,
   apiRoute,
+  route,
   showCreator,
   children,
 }: TabPanelContextProviderProps) => {
-  const [searchQuery, setSearchQuery] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get('search_query');
 
   const value = {
-    queryKey,
     apiRoute,
+    route,
     showCreator,
     searchQuery,
-    setSearchQuery,
   };
 
   return (

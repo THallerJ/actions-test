@@ -1,13 +1,13 @@
 import { Suspense } from 'react';
 import styles from './styles/tab_panel.module.scss';
 import ContextWrapper from './ContextWrapper';
-import TabBrowse from './TabBrowse';
+import TabQuery from './TabQuery';
 import SearchForm from './SearchForm';
 
 type TabPanelProps = {
   title: string;
-  queryKey: string;
   apiRoute: string;
+  route: string;
   showCreator?: boolean;
 };
 
@@ -22,7 +22,7 @@ const TabPanel = ({ title, ...props }: TabPanelProps) => {
           <SearchForm />
         </div>
         <Suspense fallback="loading">
-          <TabBrowse />
+          <TabQuery />
         </Suspense>
       </section>
     </ContextWrapper>

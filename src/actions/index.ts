@@ -1,27 +1,13 @@
 'use server';
-import { TabSchema } from '@/common/types.';
-import { z } from 'zod';
+import { TabInsertableSchema } from '@/common/types.';
 import { saveTabDb } from '@/db';
-
-const tabFormSchema = z.object({
-  user: z.string(),
-  title: z.string(),
-  artist: z.string(),
-  Isprivate: z.coerce.boolean(),
-  tab: z.preprocess(val => JSON.parse(String(val)), TabSchema),
-});
 
 export const saveTab = async (formData: FormData) => {
   const form = Object.fromEntries(formData.entries());
-  const result = tabFormSchema.safeParse(form);
+  const result = TabInsertableSchema.safeParse(form);
 
   if (result.success) {
-    const tab = result.data.tab;
-    tab.title = result.data.title;
-    tab.user = result.data.user;
-    tab.artist = result.data.artist;
-    tab.private = result.data.Isprivate;
-    await saveTabDb(tab);
+    await saveTabDb(result.data);
   } else {
     console.log(result.error);
   }

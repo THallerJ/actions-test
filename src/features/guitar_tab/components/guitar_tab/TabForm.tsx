@@ -12,10 +12,16 @@ const TabForm = () => {
       <div>
         <input type="text" name="title" />
         <input type="text" name="artist" />
-        <input type="checkbox" name="Isprivate" id="Isprivate" />
-        <label htmlFor="isPrivate">Private</label>
+        <input type="checkbox" name="private" id="private" />
+        <label htmlFor="private">Private</label>
         <input type="hidden" name="user" value={user?.nickname || ''} />
-        <input type="hidden" name="tab" value={JSON.stringify(tab)} />
+        <input type="hidden" name="notes" value={JSON.stringify(tab.notes)} />
+        <input type="hidden" name="count" value={tab.count} />
+        <input
+          type="hidden"
+          name="gtr_string_count"
+          value={tab.gtr_string_count}
+        />
       </div>
       <button type="submit" className={styles.btn}>
         Submit

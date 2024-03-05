@@ -2,12 +2,7 @@ import { TabPanel } from '@/features/tab_panel';
 
 const Home = async () => {
   return (
-    <TabPanel
-      apiRoute="api/tabs/all"
-      queryKey="allTabs"
-      title="All Tabs"
-      showCreator
-    />
+    <TabPanel apiRoute="api/tabs/all" title="All Tabs" route="/" showCreator />
   );
 };
 

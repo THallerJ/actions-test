@@ -1,42 +1,21 @@
-import { MongoClient } from 'mongodb';
-import { Tab } from '@/common/types.';
+import { PostgresDialect, Kysely } from 'kysely';
+import { Pool } from 'pg';
+import { TabTable } from '@/common/types.';
 
-if (!process.env.MONGO_URI) {
-  throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
+export interface Database {
+  tab: TabTable;
 }
 
-const uri = process.env.MONGO_URI;
-const options = {};
+const dialect = new PostgresDialect({
+  pool: new Pool({
+    database: 'database',
+    host: process.env.POSTGRES_HOST,
+    user: process.env.POSTGRES_USER,
+    port: Number(process.env.POSTGRES_PORT),
+    password: process.env.POSTGRES_PASSWORD,
+  }),
+});
 
-let client;
-let clientPromise: Promise<MongoClient>;
-
-if (process.env.NODE_ENV === 'development') {
-  // In development mode, use a global variable so that the value
-  // is preserved across module reloads caused by HMR (Hot Module Replacement).
-  let globalWithMongo = global as typeof globalThis & {
-    _mongoClientPromise?: Promise<MongoClient>;
-  };
-
-  if (!globalWithMongo._mongoClientPromise) {
-    client = new MongoClient(uri, options);
-    globalWithMongo._mongoClientPromise = client.connect();
-  }
-  clientPromise = globalWithMongo._mongoClientPromise;
-} else {
-  // In production mode, it's best to not use a global variable.
-  client = new MongoClient(uri, options);
-  clientPromise = client.connect();
-}
-
-// Export a module-scoped MongoClient promise. By doing this in a
-// separate module, the client can be shared across functions.
-
-const getCollection = async () => {
-  const client = await clientPromise;
-  const collection = client.db('guitar_tab_db').collection<Tab>('tabs');
-
-  return collection;
-};
-
-export { clientPromise, getCollection };
+export const db = new Kysely<Database>({
+  dialect,
+});

@@ -6,14 +6,16 @@ import styles from './styles/tab_panel.module.scss';
 import Spinner from '@/components/spinner/Spinner';
 import { LoadingBar } from '@/components';
 import { useInfiniteScroll } from '@/hooks';
-import { Tab } from '@/common/types.';
+import { TabResp } from '@/common/types.';
 import { UseInfiniteQueryResult, InfiniteData } from '@tanstack/react-query';
+import { useTabPanelContext } from '../stores/useTabPanelContext';
 
 type TabListProps = {
-  query: UseInfiniteQueryResult<InfiniteData<Tab[], unknown>, Error>;
+  query: UseInfiniteQueryResult<InfiniteData<TabResp, unknown>, Error>;
 };
 
 const TabList = ({ query }: TabListProps) => {
+  const { searchQuery } = useTabPanelContext();
   const root = useRef(null);
 
   const lastItemCb = useInfiniteScroll(() => query.fetchNextPage(), root);
@@ -23,15 +25,17 @@ const TabList = ({ query }: TabListProps) => {
       const arr: React.ReactNode[] = [];
 
       query.data.pages.forEach((page, i) => {
-        page.forEach((item, j) => {
+        page.tabs.forEach((item, j) => {
           arr.push(
             <Link
               ref={
-                j === query.data.pages[i].length - 1 ? lastItemCb : undefined
+                j === query.data.pages[i].tabs.length - 1
+                  ? lastItemCb
+                  : undefined
               }
-              key={item._id}
+              key={String(item.id)}
               href={{
-                pathname: `/tab_viewer/` + item._id,
+                pathname: `/tab_viewer/` + item.id,
               }}
             >
               <TabItem item={item} />
@@ -49,18 +53,21 @@ const TabList = ({ query }: TabListProps) => {
 
   return (
     <div className={styles.wrapper}>
+      {searchQuery && !query.isLoading ? (
+        <span className={styles.searchMsg}>
+          Showing results for "{searchQuery}"
+        </span>
+      ) : null}
       {query.isLoading ? (
         <div className={styles.spinner}>
           <Spinner />
         </div>
       ) : null}
-
       {query.isFetchingNextPage ? (
         <div className={styles.loadingBar}>
           <LoadingBar />
         </div>
       ) : null}
-
       <div className={styles.tabList} ref={root}>
         {RenderTabList()}
       </div>
@@ -71,15 +78,16 @@ const TabList = ({ query }: TabListProps) => {
 export default TabList;
 
 const showDivider = (
-  data: InfiniteData<Tab[], unknown>,
+  data: InfiniteData<TabResp, unknown>,
   i: number,
   j: number
 ): boolean => {
   const pLen = data.pages.length;
 
   if (
-    (i === pLen - 1 || (i === pLen - 2 && data.pages[pLen - 1].length === 0)) &&
-    j === data.pages[i].length - 1
+    (i === pLen - 1 ||
+      (i === pLen - 2 && data.pages[pLen - 1].tabs.length === 0)) &&
+    j === data.pages[i].tabs.length - 1
   )
     return false;
   else return true;
