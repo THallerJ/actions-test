@@ -8,7 +8,11 @@ type TabProps = {
 const Tab = async ({ id }: TabProps) => {
   const tab = await getTabDb(id);
 
-  return <GuitarTab tab={tab} />;
+  return tab ? (
+    <GuitarTab tab={tab} />
+  ) : (
+    <span>You do not have access to this tab. It is private.</span>
+  );
 };
 
 export default Tab;

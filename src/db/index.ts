@@ -1,6 +1,5 @@
 import { TabInsertable, TabSelectable } from '@/common/types.';
 import { db } from './config';
-import { sql } from 'kysely';
 import { getSession } from '@auth0/nextjs-auth0';
 
 export const getTabsArrayDb = async (
@@ -13,6 +12,7 @@ export const getTabsArrayDb = async (
   nextPage: number;
 }> => {
   const pageSize = 15;
+  searchQuery = searchQuery?.toLowerCase();
 
   try {
     let query = db.selectFrom('tab').selectAll();
@@ -21,24 +21,33 @@ export const getTabsArrayDb = async (
     else query = query.where('private', '=', false);
 
     if (searchQuery)
-      query = query.where(({ eb }) =>
-        eb('title', 'like', `%${searchQuery}%`).or(
-          'artist',
-          'like',
-          `%${searchQuery}%`
+      query = query
+        .where(({ eb, fn }) =>
+          eb(fn('lower', ['title']), 'like', `%${searchQuery}%`).or(
+            fn('lower', ['artist']),
+            'like',
+            `%${searchQuery}%`
+          )
         )
-      );
-
-    if (searchQuery)
-      query = query.orderBy([
-        sql`case when title=${searchQuery} then 0 else 1 end`,
-        sql`case when artist=${searchQuery} then 0 else 1 end`,
-        'created_at desc',
-      ]);
-    else query = query.orderBy('created_at desc');
+        .orderBy(({ eb, fn, or }) =>
+          eb
+            .case()
+            .when(
+              or([
+                eb(fn('lower', ['title']), '=', searchQuery),
+                eb(fn('lower', ['artist']), '=', searchQuery),
+              ])
+            )
+            .then(0)
+            .else(1)
+            .end()
+        );
 
     // we add 1 to page size so we know if the next page exists
-    query = query.offset(page * pageSize).limit(pageSize + 1);
+    query = query
+      .orderBy('created_at desc')
+      .offset(page * pageSize)
+      .limit(pageSize + 1);
 
     const tabs = await query.execute();
 

@@ -6,17 +6,16 @@ import styles from './guitar_tab.module.scss';
 
 type GuitarTabProps = {
   tab?: TabSelectable | null;
+  edit?: boolean;
 };
 
 const GuitarTab = ({ tab }: GuitarTabProps) => {
-  return tab ? (
+  return (
     <div className={styles.wrapper}>
       <TabContextProvider initialTab={tab}>
         <GuitarTabChild />
       </TabContextProvider>
     </div>
-  ) : (
-    <span>You do not have access to this tab. It is private.</span>
   );
 };
 
