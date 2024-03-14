@@ -9,17 +9,19 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background: globals.$dark;
+  background: globals.$background;
   padding: 0 2rem 0 2rem;
-  top: 0;
+  top: calc(0px - globals.$headerHeight);
   z-index: 100;
   height: globals.$headerHeight;
-  color: globals.$text;
+  color: globals.$text2;
+  //  box-shadow: 0 1px 15px 0px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
 }
 
 .title {
   display: inline;
-  color: globals.$heading;
+  color: globals.$text4;
   text-decoration: none;
   font-size: 1.25rem;
 }

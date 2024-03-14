@@ -1,8 +1,9 @@
-import { useReducer } from 'react';
+import { useReducer, useEffect } from 'react';
 import { ReducerAction } from '../common/tab.type';
-import { TabEditable } from '@/common/types.';
+import { TabEditable, TabSelectable } from '@/common/types.';
+import { TAB_COUNT } from '../common/constants';
 
-const useTabReducer = (initialTab?: TabEditable | null) => {
+const useTabReducer = (initialTab?: TabEditable | TabSelectable | null) => {
   const reducer = (state: TabEditable, action: ReducerAction): TabEditable => {
     switch (action.type) {
       case 'ADD_NOTE': {
@@ -12,7 +13,12 @@ const useTabReducer = (initialTab?: TabEditable | null) => {
         const newState = { ...state };
 
         if (!newState.notes[noteNum]) newState.notes[noteNum] = {};
-        newState.notes[noteNum][gtrStr] = fretNum;
+        if (fretNum === '|') newState.notes[noteNum] = { bar: true };
+        else {
+          newState.notes[noteNum]['bar'] = false;
+          newState.notes[noteNum][gtrStr] = fretNum;
+        }
+
         return newState;
       }
       case 'DELETE_NOTE': {
@@ -50,6 +56,16 @@ const useTabReducer = (initialTab?: TabEditable | null) => {
           return state;
         }
       }
+      case 'SET': {
+        const newState = action.payload.tab;
+        return newState;
+      }
+      case 'RESET': {
+        const newState = { ...state };
+        newState.notes = {};
+        newState.count = TAB_COUNT;
+        return newState;
+      }
       default:
         return state;
     }
@@ -57,15 +73,17 @@ const useTabReducer = (initialTab?: TabEditable | null) => {
 
   const [state, dispatch] = useReducer(reducer, initialTab || INITIAL_TAB);
 
+  useEffect(() => {
+    if (initialTab) dispatch({ type: 'SET', payload: { tab: initialTab } });
+  }, [initialTab, dispatch]);
+
   return [state, dispatch] as const;
 };
 
 export default useTabReducer;
 
-const TAB_COUNT = 20;
-
 const INITIAL_TAB: TabEditable = {
-  count: 20,
+  count: TAB_COUNT,
   gtr_string_count: 6,
   notes: {},
 };

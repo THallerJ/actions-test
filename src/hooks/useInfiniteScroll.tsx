@@ -12,21 +12,24 @@ const useInfiniteScroll = (
 
   const observer = useRef<IntersectionObserver>();
 
-  const lastItemCb = useCallback((elem: HTMLElement | null) => {
-    if (observer.current) observer.current.disconnect();
+  const lastItemCb = useCallback(
+    (elem: HTMLElement | null) => {
+      if (observer.current) observer.current.disconnect();
 
-    observer.current = new IntersectionObserver(
-      entries => {
-        if (entries[0].isIntersecting) {
-          if (callbackRef.current) callbackRef.current();
-          if (elem) observer.current?.unobserve(elem);
-        }
-      },
-      { threshold: 1, root: root ? root.current : undefined }
-    );
+      observer.current = new IntersectionObserver(
+        entries => {
+          if (entries[0].isIntersecting) {
+            if (callbackRef.current) callbackRef.current();
+            if (elem) observer.current?.unobserve(elem);
+          }
+        },
+        { threshold: 1, root: root ? root.current : undefined }
+      );
 
-    if (elem) observer.current.observe(elem);
-  }, []);
+      if (elem) observer.current.observe(elem);
+    },
+    [root]
+  );
 
   return lastItemCb;
 };

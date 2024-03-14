@@ -1,5 +1,6 @@
 import { getTabsArrayDb } from '@/db';
 import { NextRequest, NextResponse } from 'next/server';
+import { isDynamicServerError } from 'next/dist/client/components/hooks-server-context';
 
 export const GET = async (req: NextRequest) => {
   try {
@@ -10,7 +11,9 @@ export const GET = async (req: NextRequest) => {
 
     return NextResponse.json(res);
   } catch (e: unknown) {
+    if (isDynamicServerError(e)) throw e;
     console.log(e);
-    return NextResponse.json({ nextPage: 0, tabs: [], hasNextPage: false });
   }
+
+  return NextResponse.json({ nextPage: 0, tabs: [], hasNextPage: false });
 };

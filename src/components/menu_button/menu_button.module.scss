@@ -12,59 +12,63 @@
   border: none;
 }
 
-.menuItem {
-  background-color: vars.$textDark;
+@mixin menuItem {
+  background-color: vars.$text3;
   width: 100%;
   height: 3px;
   position: absolute;
   left: 0;
 }
 
-.animated {
+@mixin animated {
   animation-duration: 400ms;
   animation-fill-mode: both;
 }
 
 .topMenu {
-  @extend .menuItem;
+  @include menuItem;
   top: 7px;
 
   &.open {
     animation-name: top-menu;
-    @extend .animated;
+    @include animated;
   }
 
   &.closed {
     animation-name: top-menu-rev;
-    @extend .animated;
+    @include animated;
   }
 }
 
 .midMenu {
-  @extend .menuItem;
+  @include menuItem;
 
   &.open {
     animation-name: mid-menu;
-    @extend .animated;
+    @include animated;
   }
 
   &.closed {
     animation-name: mid-menu-rev;
-    @extend .animated;
+    @include animated;
   }
 }
 
 .bottomMenu {
-  @extend .menuItem;
+  @include menuItem;
   bottom: 7px;
 
   &.open {
     animation-name: bottom-menu;
-    @extend .animated;
+    @include animated;
   }
 
   &.closed {
     animation-name: bottom-menu-rev;
-    @extend .animated;
+    @include animated;
   }
+}
+
+.defaultStlye {
+  display: block;
 }

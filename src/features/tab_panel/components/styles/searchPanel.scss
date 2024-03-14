@@ -5,9 +5,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: vars.$secondary;
-  border-radius: 0.5rem 0.5rem 0 0;
-  padding: 1.5rem 0 1.5rem 0;
+  background-color: vars.$dark12;
+  padding: 1.5rem 6rem 1.5rem 6rem;
+
+  @include vars.md {
+    padding: 1.5rem 4rem 1.5rem 4rem;
+  }
+
+  @include vars.sm {
+    padding: 1rem 2rem 1rem 2rem;
+  }
 }
 
 .searchForm {
@@ -15,23 +22,20 @@
   background-color: white;
   align-items: center;
   border-radius: 0.25rem;
-  width: calc(100% - 12rem);
-  outline: 2px solid vars.$textDark;
+  width: 100%;
+  outline: 2px solid vars.$text3;
   border-radius: 0.25rem;
   padding: 0.5rem 0 0.5rem 0;
 
-  @include vars.md {
-    width: 90%;
-  }
-
   &:focus-within {
-    outline: 2px solid vars.$dark;
+    outline: 2px solid vars.$dark2;
   }
 }
 
 .searchLabel {
   font-size: 1.5rem;
   padding-bottom: 1rem;
+  color: white;
 }
 
 .searchBtn {
@@ -57,10 +61,20 @@
   outline: none;
   border: none;
   padding-left: 1rem;
+
+  &:hover {
+    border-style: none;
+    font-size: 1.125rem;
+    width: 100%;
+    outline: none;
+    border: none;
+    padding-left: 1rem;
+  }
 }
 
 .searchMsg {
-  display: block;
-  color: vars.$text;
+  display: flex;
+  justify-content: center;
+  color: vars.$text2;
   padding: 1rem 2rem 1rem 2rem;
 }

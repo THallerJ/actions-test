@@ -2,11 +2,6 @@ import AuthManager from './AuthManager';
 import styles from './styles/header.module.scss';
 import Link from 'next/link';
 
-type MobileMenuProps = {
-  showMenu: boolean;
-  onNavigate: () => void;
-};
-
 const MobileMenu = ({ showMenu, onNavigate }: MobileMenuProps) => {
   return (
     <div
@@ -38,3 +33,8 @@ const MobileMenu = ({ showMenu, onNavigate }: MobileMenuProps) => {
 };
 
 export default MobileMenu;
+
+type MobileMenuProps = {
+  showMenu: boolean;
+  onNavigate: () => void;
+};

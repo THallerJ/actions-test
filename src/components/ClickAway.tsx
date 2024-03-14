@@ -2,10 +2,6 @@
 import { useEffect, useRef } from 'react';
 
 // This component triggers a callback when the mouse is clicked outside the child element
-type ClickAwayProps = {
-  callback: () => void;
-  children: React.ReactNode;
-};
 export const ClickAway = ({ callback, children }: ClickAwayProps) => {
   const ref = useRef<HTMLDivElement | null>(null);
 
@@ -27,3 +23,8 @@ export const ClickAway = ({ callback, children }: ClickAwayProps) => {
 };
 
 export default ClickAway;
+
+type ClickAwayProps = {
+  callback: () => void;
+  children: React.ReactNode;
+};

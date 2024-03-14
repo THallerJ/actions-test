@@ -1,26 +1,27 @@
+'use client';
 import styles from './menu_button.module.scss';
-
-type MenuButtonprops = {
-  onClick: () => void;
-  toggled: boolean;
-};
+import { useAnimationCss } from '@/hooks';
 
 const MenuButton = ({ onClick, toggled }: MenuButtonprops) => {
+  const animation = useAnimationCss(
+    toggled,
+    styles.open,
+    styles.closed,
+    styles.defaultStyle
+  );
+
   return (
     <button className={styles.menu} onClick={onClick}>
-      <span
-        className={`${styles.topMenu} ${toggled ? styles.open : styles.closed}`}
-      ></span>
-      <span
-        className={`${styles.midMenu} ${toggled ? styles.open : styles.closed}`}
-      ></span>
-      <span
-        className={`${styles.bottomMenu} ${
-          toggled ? styles.open : styles.closed
-        }`}
-      ></span>
+      <span className={`${styles.topMenu} ${animation}`}></span>
+      <span className={`${styles.midMenu} ${animation}`}></span>
+      <span className={`${styles.bottomMenu} ${animation}`}></span>
     </button>
   );
 };
 
 export default MenuButton;
+
+type MenuButtonprops = {
+  onClick: () => void;
+  toggled: boolean;
+};

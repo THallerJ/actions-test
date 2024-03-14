@@ -1,2 +1,5 @@
 import useInfiniteScroll from './useInfiniteScroll';
-export { useInfiniteScroll };
+import useAnimationCss from './useAnimationCss';
+import useNotify from './useNotify';
+
+export { useInfiniteScroll, useAnimationCss, useNotify };

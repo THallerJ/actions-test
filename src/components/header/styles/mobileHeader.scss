@@ -2,7 +2,7 @@
 @use './variables.scss' as vars;
 
 .mobileMenu {
-  background-color: globals.$dark;
+  background-color: globals.$background;
   opacity: 0;
   position: fixed;
   padding-top: 1px;

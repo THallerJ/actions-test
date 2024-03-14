@@ -1,11 +1,5 @@
 import { useUser } from '@auth0/nextjs-auth0/client';
 
-type ProtectedComponentProps = {
-  children: React.ReactNode;
-  unprotected?: React.ReactNode;
-  fallback?: React.ReactNode;
-};
-
 const ProtectedComponent = ({
   children,
   unprotected,
@@ -19,3 +13,9 @@ const ProtectedComponent = ({
 };
 
 export default ProtectedComponent;
+
+type ProtectedComponentProps = {
+  children: React.ReactNode;
+  unprotected?: React.ReactNode;
+  fallback?: React.ReactNode;
+};

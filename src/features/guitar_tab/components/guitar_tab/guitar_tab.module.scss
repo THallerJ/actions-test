@@ -1,25 +1,40 @@
-.btnFlex {
-  display: flex;
-  justify-content: flex-end;
-  gap: 1em;
-  padding-bottom: 1.25em;
-}
-
-.btn {
-  width: 8em;
-  padding: 0.5em;
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.fm {
-  display: flex;
-  flex-direction: column;
-  width: 16em;
-}
+@use '@/common/variables.scss' as vars;
 
 .wrapper {
   width: 100%;
+  min-height: calc(100vh - vars.$headerHeight);
+  display: flex;
+  justify-content: center;
+}
+
+.innerWrap {
+  width: 75%;
+  height: 100%;
+  background-color: vars.$dark2;
+  border-radius: 1rem 1rem 0 0;
+  overflow-y: hidden;
+
+  @include vars.lg {
+    width: 80%;
+  }
+
+  @include vars.md {
+    width: 100%;
+  }
+}
+
+.body {
+  padding: 0 4rem 4rem 4rem;
+
+  @include vars.lg {
+    padding: 0 2rem 2rem 2rem;
+  }
+}
+
+.conditionalWrapper {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 2rem 0 2rem;
 }

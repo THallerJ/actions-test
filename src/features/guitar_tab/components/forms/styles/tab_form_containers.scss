@@ -1,0 +1,88 @@
+@use '@/common/variables.scss' as vars;
+
+.formWrapper {
+  margin-bottom: 1.5rem;
+
+  @include vars.lg {
+    margin-bottom: 1rem;
+  }
+}
+
+.form {
+  background-color: vars.$dark1;
+  color: vars.$text21;
+  padding: 2rem 4rem 2rem 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @include vars.lg {
+    background-color: vars.$light;
+    height: 100%;
+    padding: 0 2rem 0 2rem;
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
+}
+
+.openFormBtn {
+  background: none;
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 1rem;
+  background-color: vars.$dark1;
+  color: vars.$text21;
+  padding: 2rem 4rem 2rem 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.25rem;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.formMobileToggleFooterWrapper {
+  width: 100%;
+}
+
+.formMobileToggleFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 2rem 0.5rem 2rem;
+}
+
+.formPanel {
+  position: relative;
+  overflow-x: hidden;
+
+  @include vars.lg {
+    overflow: hidden;
+  }
+}
+
+.defaultStyle {
+  @include vars.lg {
+    display: none;
+  }
+}
+
+.left {
+  display: flex;
+  width: 65%;
+  gap: 4rem;
+
+  @include vars.lg {
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+}
+
+.loadingBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}

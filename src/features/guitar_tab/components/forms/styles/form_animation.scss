@@ -1,0 +1,33 @@
+@use '@/common/variables.scss' as vars;
+
+$formHeight: 40vh;
+
+@keyframes formToggled {
+  from {
+    height: 0;
+  }
+  to {
+    height: $formHeight;
+  }
+}
+
+@mixin animated {
+  animation-duration: 0.3s;
+  animation-name: formToggled;
+  transition: height 0.3s;
+}
+
+.showForm {
+  @include vars.lg {
+    @include animated;
+    height: $formHeight;
+  }
+}
+
+.hideForm {
+  @include vars.lg {
+    @include animated;
+    height: 0;
+    animation-direction: reverse;
+  }
+}

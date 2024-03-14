@@ -1,12 +1,15 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Manrope } from 'next/font/google';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { Header } from '@/components';
 import './globals.scss';
 import styles from './layout.module.scss';
 import ReactQueryWrapper from './ReactQueryWrapper';
 
-const inter = Inter({ subsets: ['latin'] });
+const montserrat = Manrope({
+  subsets: ['latin'],
+  variable: '--font-montserrat',
+});
 
 export const metadata: Metadata = {
   title: 'Guitar Tab',
@@ -22,7 +25,7 @@ export default function RootLayout({
     <html lang="en">
       <UserProvider>
         <ReactQueryWrapper>
-          <body className={inter.className}>
+          <body className={`${montserrat.className}`}>
             <Header />
             <main className={styles.main}>{children}</main>
           </body>

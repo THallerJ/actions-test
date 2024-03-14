@@ -37,7 +37,7 @@ const NoteInput = ({ note, str, fret }: NoteProps) => {
   return (
     <input
       className={styles.noteInput}
-      defaultValue={fret || ''}
+      defaultValue={fret !== undefined && fret !== '|' ? fret : ''}
       type="text"
       maxLength={3}
       autoFocus

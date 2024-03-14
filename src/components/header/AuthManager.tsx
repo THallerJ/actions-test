@@ -3,10 +3,6 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import Link from 'next/link';
 import { ProtectedComponent } from '@/components';
 
-type AuthManagerProps = {
-  isMobile?: boolean;
-};
-
 const AuthManager = ({ isMobile }: AuthManagerProps) => {
   return (
     <div className={isMobile ? styles.profileMobile : styles.profile}>
@@ -43,3 +39,7 @@ const UnprotectedAuth = () => (
     </Link>
   </div>
 );
+
+type AuthManagerProps = {
+  isMobile?: boolean;
+};

@@ -1,0 +1,94 @@
+@use '@/common/variables.scss' as vars;
+
+.tabInfoWrapper {
+  width: 100%;
+  display: none;
+
+  @include vars.lg {
+    display: block;
+    background-color: vars.$dark1;
+  }
+}
+
+.tabInfo {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  color: vars.$text4;
+  font-size: 0.75rem;
+  background-color: vars.$dark1;
+  padding: 0.5rem 4rem 4rem 4rem;
+
+  @include vars.lg {
+    padding: 0.5rem 2rem 0 2rem;
+  }
+}
+
+.tabInfoText {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.tabInfoFull {
+  @extend .tabInfo;
+  padding-bottom: 0.5rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.fullForm {
+  gap: 4rem;
+  font-size: 1.125rem;
+  margin-bottom: 1.5rem;
+  background-color: vars.$dark1;
+  color: vars.$text21;
+  padding: 2rem 4rem 2rem 4rem;
+  display: flex;
+  justify-content: space-between;
+
+  @include vars.lg {
+    display: none;
+  }
+}
+
+.leftNoInput {
+  display: flex;
+  justify-content: flex-start;
+  width: 65%;
+  gap: 4rem;
+}
+
+.textLabelNoInput {
+  color: vars.$text4;
+  @include vars.lg {
+    display: none;
+  }
+}
+
+.text {
+  padding-top: 0.25rem;
+  width: 100%;
+  white-space: nowrap;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.divider {
+  flex-shrink: 0;
+}
+
+.textNoInputLabel {
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.verticalDivider {
+  border-left: 2px solid vars.$light;
+  height: 2ch;
+}

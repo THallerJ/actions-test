@@ -1,37 +1,42 @@
-import { createContext, useState, useContext, useEffect } from 'react';
+import { createContext, useState, useContext } from 'react';
 import { ReducerAction } from '../common/tab.type';
 import useTabReducer from './useTabReducer';
-import { TabEditable } from '@/common/types.';
+import { TabEditable, TabSelectable } from '@/common/types.';
 
 type TabContextProps = {
   activeKey: string | null;
   setActiveKey: React.Dispatch<React.SetStateAction<string | null>>;
   showInput: boolean;
   setShowInput: React.Dispatch<React.SetStateAction<boolean>>;
-  tab: TabEditable;
+  tab: TabSelectable | TabEditable;
   tabDispatch: React.Dispatch<ReducerAction>;
-  readOnly: boolean;
+  readonly: boolean;
+  hadIntitialTab: boolean;
+  editAccess: boolean;
+  id: string | null;
+  isNewTab: boolean;
 };
 
 export const TabContext = createContext<TabContextProps | null>(null);
 
 type TabContextProviderProps = {
-  initialTab?: TabEditable | null;
+  id?: string;
+  initialTab?: TabSelectable | null;
+  readonly?: boolean;
+  editAccess?: boolean;
   children: React.ReactNode;
 };
 
 export const TabContextProvider = ({
+  id,
   initialTab,
+  readonly,
+  editAccess,
   children,
 }: TabContextProviderProps) => {
   const [activeKey, setActiveKey] = useState<string | null>(null);
   const [showInput, setShowInput] = useState(false);
   const [tab, tabDispatch] = useTabReducer(initialTab);
-  const [readOnly, setReadOnly] = useState<boolean>(true);
-
-  useEffect(() => {
-    if (!initialTab) setReadOnly(false);
-  }, [initialTab]);
 
   const value = {
     activeKey,
@@ -40,7 +45,11 @@ export const TabContextProvider = ({
     showInput,
     setShowInput,
     tabDispatch,
-    readOnly,
+    id: id ? id : null,
+    isNewTab: id === undefined,
+    hadIntitialTab: initialTab !== undefined && initialTab !== null,
+    readonly: readonly ? readonly : false,
+    editAccess: editAccess ? editAccess : false,
   };
 
   return <TabContext.Provider value={value}>{children}</TabContext.Provider>;

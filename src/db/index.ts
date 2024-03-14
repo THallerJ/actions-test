@@ -1,6 +1,5 @@
-import { TabInsertable, TabSelectable } from '@/common/types.';
+import { TabInsertable, TabSelectable, TabUpdateable } from '@/common/types.';
 import { db } from './config';
-import { getSession } from '@auth0/nextjs-auth0';
 
 export const getTabsArrayDb = async (
   page: number,
@@ -65,29 +64,59 @@ export const getTabsArrayDb = async (
   return { tabs: [], hasNextPage: false, nextPage: 0 };
 };
 
-export const getTabDb = async (id: string) => {
+export const getTabDb = async (
+  id: string,
+  user?: string | null,
+  requireMatch?: boolean
+) => {
   try {
-    const result = await db
-      .selectFrom('tab')
-      .selectAll()
-      .where('id', '=', Number(id))
-      .executeTakeFirstOrThrow();
+    let query = db.selectFrom('tab').selectAll().where('id', '=', Number(id));
 
-    const session = await getSession();
-    const user = session?.user;
+    if (requireMatch) {
+      if (!user) return { tab: null, canEdit: false };
+      query = query.where('user', '=', user);
+    } else if (user) {
+      query = query.where(eb =>
+        eb.or([eb('private', '=', false), eb('user', '=', user)])
+      );
+    } else query = query.where('private', '=', false);
 
-    if (user?.nickname !== result.user && result.private === true) return null;
+    const tab = (await query.executeTakeFirst()) || null;
 
-    return result;
+    const editAccess = tab && user ? tab.user === user : false;
+
+    return { tab, editAccess };
   } catch (e: unknown) {
     console.log(e);
   }
-  return null;
+
+  return { tab: null, canEdit: false };
 };
 
 export const saveTabDb = async (tab: TabInsertable) => {
   try {
     await db.insertInto('tab').values(tab).executeTakeFirstOrThrow();
+  } catch (e: unknown) {
+    console.log(e);
+  }
+};
+
+export const updateTabDb = async (tab: TabUpdateable, user: string) => {
+  if (tab.id)
+    db.updateTable('tab')
+      .set(tab)
+      .where('id', '=', tab.id)
+      .where('user', '=', user)
+      .executeTakeFirst();
+};
+
+export const deleteTabDb = async (id: string, user: string) => {
+  try {
+    await db
+      .deleteFrom('tab')
+      .where('user', '=', user)
+      .where('id', '=', Number(id))
+      .executeTakeFirst();
   } catch (e: unknown) {
     console.log(e);
   }

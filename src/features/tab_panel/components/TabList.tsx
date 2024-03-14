@@ -1,75 +1,60 @@
 'use client';
 import { useRef } from 'react';
-import Link from 'next/link';
 import TabItem from './TabItem';
 import styles from './styles/tab_panel.module.scss';
-import Spinner from '@/components/spinner/Spinner';
-import { LoadingBar } from '@/components';
+import {
+  LoadingBar,
+  Spinner,
+  ConditionalHandler,
+  Notification,
+  Message,
+} from '@/components';
 import { useInfiniteScroll } from '@/hooks';
-import { TabResp } from '@/common/types.';
+import { TabArrayResp } from '@/common/types.';
 import { UseInfiniteQueryResult, InfiniteData } from '@tanstack/react-query';
 import { useTabPanelContext } from '../stores/useTabPanelContext';
+import { showDivider } from '../common';
+import { useQueryContext } from '../stores/useQueryContext';
+import Link from 'next/link';
 
-type TabListProps = {
-  query: UseInfiniteQueryResult<InfiniteData<TabResp, unknown>, Error>;
-};
-
-const TabList = ({ query }: TabListProps) => {
+const TabList = () => {
   const { searchQuery } = useTabPanelContext();
+  const { query, mutation } = useQueryContext();
   const root = useRef(null);
-
+  const { showError, cancelError } = useQueryContext();
   const lastItemCb = useInfiniteScroll(() => query.fetchNextPage(), root);
-
-  const RenderTabList = () => {
-    if (!query.isLoading && query.data) {
-      const arr: React.ReactNode[] = [];
-
-      query.data.pages.forEach((page, i) => {
-        page.tabs.forEach((item, j) => {
-          arr.push(
-            <Link
-              ref={
-                j === query.data.pages[i].tabs.length - 1
-                  ? lastItemCb
-                  : undefined
-              }
-              key={String(item.id)}
-              href={{
-                pathname: `/tab_viewer/` + item.id,
-              }}
-            >
-              <TabItem item={item} />
-              {showDivider(query.data, i, j) ? (
-                <div className={styles.itemDivider} />
-              ) : null}
-            </Link>
-          );
-        });
-      });
-
-      return arr;
-    }
-  };
 
   return (
     <div className={styles.wrapper}>
-      {searchQuery && !query.isLoading ? (
+      <Notification
+        error
+        text="An error has occured"
+        show={showError}
+        onCancel={cancelError}
+      />
+      <ConditionalHandler
+        condition={
+          searchQuery !== null && searchQuery !== '' && !query.isLoading
+        }
+      >
         <span className={styles.searchMsg}>
-          Showing results for "{searchQuery}"
+          Showing results for {`"${searchQuery}"`}
         </span>
-      ) : null}
-      {query.isLoading ? (
+      </ConditionalHandler>
+      <ConditionalHandler condition={query.isLoading}>
         <div className={styles.spinner}>
           <Spinner />
         </div>
-      ) : null}
-      {query.isFetchingNextPage ? (
+      </ConditionalHandler>
+      <ConditionalHandler
+        condition={query.isFetchingNextPage || mutation.isPending}
+      >
         <div className={styles.loadingBar}>
           <LoadingBar />
         </div>
-      ) : null}
+      </ConditionalHandler>
       <div className={styles.tabList} ref={root}>
-        {RenderTabList()}
+        <RenderTabList query={query} lastItemCb={lastItemCb} />
       </div>
     </div>
   );
@@ -77,18 +62,47 @@ const TabList = ({ query }: TabListProps) => {
 
 export default TabList;
 
-const showDivider = (
-  data: InfiniteData<TabResp, unknown>,
-  i: number,
-  j: number
-): boolean => {
-  const pLen = data.pages.length;
+const RenderTabList = ({ query, lastItemCb }: RenderTabListProps) => {
+  if (!query.isLoading && query.data) {
+    const arr: React.ReactNode[] = [];
 
-  if (
-    (i === pLen - 1 ||
-      (i === pLen - 2 && data.pages[pLen - 1].tabs.length === 0)) &&
-    j === data.pages[i].tabs.length - 1
-  )
-    return false;
-  else return true;
+    query.data.pages.forEach((page, i) => {
+      page.tabs.forEach((item, j) => {
+        arr.push(
+          <div
+            ref={
+              j === query.data.pages[i].tabs.length - 1 ? lastItemCb : undefined
+            }
+            key={String(item.id)}
+          >
+            <TabItem item={item} />
+            {showDivider(query.data, i, j) ? (
+              <div className={styles.itemDivider} />
+            ) : null}
+          </div>
+        );
+      });
+    });
+
+    return query.data.pages[0].tabs.length > 0 ? (
+      arr
+    ) : (
+      <div className={styles.emptyListMsg}>
+        <Message>
+          <span>
+            There are no tabs here.{' '}
+            <Link href="/tab_editor">
+              <span className={styles.msgLink}>Click here</span>
+            </Link>{' '}
+            to create a tab.
+          </span>
+        </Message>
+      </div>
+    );
+  }
+};
+
+type RenderTabListProps = {
+  query: UseInfiniteQueryResult<InfiniteData<TabArrayResp, unknown>, Error>;
+  lastItemCb: (elem: HTMLElement | null) => void;
 };

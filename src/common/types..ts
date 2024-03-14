@@ -7,13 +7,20 @@ import {
   Updateable,
 } from 'kysely';
 
-const GenId: z.ZodType<Generated<Number>> = z.any();
+const GenId: z.ZodType<Generated<number>> = z.any();
 
 const GenDate: z.ZodType<Generated<Date>> = z.any();
 
-const JsonNotes: z.ZodType<
-  JSONColumnType<Record<string, Record<string, string>>>
-> = z.any();
+const NoteSchema = z.record(
+  z.string(),
+  z
+    .object({ bar: z.boolean().optional() })
+    .and(z.record(z.number(), z.string()))
+);
+
+type Note = z.infer<typeof NoteSchema>;
+
+const JsonNotes: z.ZodType<JSONColumnType<Note>> = z.any();
 
 export const TabTableSchema = z.object({
   id: GenId,
@@ -30,7 +37,7 @@ export const TabTableSchema = z.object({
 export const TabEditableSchema = TabTableSchema.pick({
   count: true,
   gtr_string_count: true,
-}).extend({ notes: z.record(z.string(), z.record(z.string(), z.string())) });
+}).extend({ notes: NoteSchema });
 
 export type TabTable = z.infer<typeof TabTableSchema>;
 export type TabEditable = z.infer<typeof TabEditableSchema>;
@@ -43,9 +50,22 @@ export const TabInsertableSchema: z.ZodType<TabInsertable> = z.any();
 export const TabUpdateableSchema: z.ZodType<TabUpdateable> = z.any();
 
 export const TabRespSchema = z.object({
+  tab: TabSelectableSchema,
+  editAccess: z.boolean(),
+});
+
+export type TabResp = z.infer<typeof TabRespSchema>;
+
+export const TabArrayRespSchema = z.object({
   nextPage: z.number(),
   hasNextPage: z.boolean(),
   tabs: TabSelectableSchema.array(),
 });
 
-export type TabResp = z.infer<typeof TabRespSchema>;
+export type TabArrayResp = z.infer<typeof TabArrayRespSchema>;
+
+export const SaveTabRespSchema = z.object({
+  code: z.literal(200).or(z.literal(500)),
+});
+
+export type SaveTabResp = z.infer<typeof SaveTabRespSchema>;

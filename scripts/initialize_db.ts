@@ -1,7 +1,15 @@
-import { db } from './config';
+import { getDb } from '@/db/config';
 import { sql } from 'kysely';
 
-const createTables = async () => {
+export const createTables = async () => {
+  const db = getDb({
+    database: process.env.POSTGRES_DATABASE,
+    host: process.env.POSTGRES_HOST,
+    password: process.env.POSTGRES_PASSWORD,
+    port: Number(process.env.POSTGRES_PORT),
+    user: process.env.POSTGRES_USER,
+  });
+
   await db.schema
     .createTable('tab')
     .ifNotExists()

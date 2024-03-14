@@ -1,26 +1,11 @@
 import { createContext, useContext } from 'react';
 import { useSearchParams } from 'next/navigation';
 
-type TabPanelContextProps = {
-  apiRoute: string;
-  route: string;
-  showCreator?: boolean;
-  searchQuery: string | null;
-};
-
 export const TabPanelContext = createContext<TabPanelContextProps | null>(null);
-
-type TabPanelContextProviderProps = {
-  apiRoute: string;
-  route: string;
-  showCreator?: boolean;
-  children: React.ReactNode;
-};
 
 export const TabPanelContextProvider = ({
   apiRoute,
   route,
-  showCreator,
   children,
 }: TabPanelContextProviderProps) => {
   const searchParams = useSearchParams();
@@ -29,7 +14,6 @@ export const TabPanelContextProvider = ({
   const value = {
     apiRoute,
     route,
-    showCreator,
     searchQuery,
   };
 
@@ -45,8 +29,20 @@ export const useTabPanelContext = () => {
 
   if (!context)
     throw new Error(
-      'useTabPanelContext must be called from within the TabContextProvider'
+      'useTabPanelContext must be called from within the TabPanelContextProvider'
     );
 
   return context;
+};
+
+type TabPanelContextProps = {
+  apiRoute: string;
+  route: string;
+  searchQuery: string | null;
+};
+
+type TabPanelContextProviderProps = {
+  apiRoute: string;
+  route: string;
+  children: React.ReactNode;
 };

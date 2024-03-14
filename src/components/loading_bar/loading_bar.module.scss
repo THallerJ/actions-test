@@ -15,11 +15,11 @@ $height: 2px;
   width: 100%;
   height: $height;
   position: relative;
-  background-color: vars.$textDark;
+  background-color: vars.$text4;
 
   &:before {
     content: '';
-    background-color: gray;
+    background-color: vars.$text1;
     width: 30%;
     height: $height;
     position: absolute;

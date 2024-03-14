@@ -1,0 +1,21 @@
+@use '@/common/variables.scss' as vars;
+@use './tab_input.scss';
+@use './tab_form_containers.scss';
+@use './tab_info.scss';
+@use './form_animation.scss';
+
+.hide {
+  display: none;
+}
+
+.hideMobile {
+  @include vars.lg {
+    display: none;
+  }
+}
+
+.hideDesktop {
+  @include vars.lgDown {
+    display: none;
+  }
+}

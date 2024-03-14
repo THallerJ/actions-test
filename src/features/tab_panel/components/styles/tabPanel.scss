@@ -1,29 +1,30 @@
 @use '@/common/variables.scss' as vars;
 
-$panelMargin: 1rem;
-
 .tabPanel {
   position: relative;
-  margin-top: $panelMargin;
-  height: calc(100vh - vars.$headerHeight - $panelMargin);
-  width: 30%;
-  background-color: vars.$dark;
-  border-radius: 0.5rem 0.5rem 0 0;
+  height: calc(100vh - vars.$headerHeight);
+  width: 40%;
+  background-color: vars.$dark2;
+  border-radius: 1rem 1rem 0 0;
   display: flex;
+  overflow: hidden;
   flex-direction: column;
   box-shadow: 0 10px 20px 0px rgba(0, 0, 0, 0.5);
 
   @include vars.xl {
-    width: 40%;
+    width: 60%;
   }
 
   @include vars.lg {
-    width: 60%;
+    width: 80%;
+  }
+
+  @include vars.md {
+    width: 90%;
   }
 
   @include vars.smd {
     height: calc(100vh - vars.$headerHeight);
-    margin-top: 0rem;
     width: 100%;
   }
 
@@ -55,7 +56,19 @@ $panelMargin: 1rem;
   flex: 1;
   padding-bottom: 1rem;
 
-  @include vars.scrollbar(black);
+  &::-webkit-scrollbar {
+    border-radius: 10px;
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: vars.$dark1;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 10px;
+  }
 }
 
 .spinner {
@@ -70,4 +83,17 @@ $panelMargin: 1rem;
   width: 100%;
   top: 2px;
   left: 0;
+}
+
+.emptyListMsg {
+  padding: 2rem;
+
+  @include vars.sm {
+    padding: 1rem;
+  }
+}
+
+.msgLink {
+  color: vars.$blue1;
+  text-decoration: underline;
 }
