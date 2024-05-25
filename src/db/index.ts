@@ -13,55 +13,49 @@ export const getTabsArrayDb = async (
   const pageSize = 15;
   searchQuery = searchQuery?.toLowerCase();
 
-  try {
-    let query = db.selectFrom('tab').selectAll();
+  let query = db.selectFrom('tab').selectAll();
 
-    if (user) query = query.where('user', '=', user);
-    else query = query.where('private', '=', false);
+  if (user) query = query.where('user', '=', user);
+  else query = query.where('private', '=', false);
 
-    if (searchQuery)
-      query = query
-        .where(({ eb, fn }) =>
-          eb(fn('lower', ['title']), 'like', `%${searchQuery}%`).or(
-            fn('lower', ['artist']),
-            'like',
-            `%${searchQuery}%`
-          )
-        )
-        .orderBy(({ eb, fn, or }) =>
-          eb
-            .case()
-            .when(
-              or([
-                eb(fn('lower', ['title']), '=', searchQuery),
-                eb(fn('lower', ['artist']), '=', searchQuery),
-              ])
-            )
-            .then(0)
-            .else(1)
-            .end()
-        );
-
-    // we add 1 to page size so we know if the next page exists
+  if (searchQuery)
     query = query
-      .orderBy('created_at desc')
-      .offset(page * pageSize)
-      .limit(pageSize + 1);
+      .where(({ eb, fn }) =>
+        eb(fn('lower', ['title']), 'like', `%${searchQuery}%`).or(
+          fn('lower', ['artist']),
+          'like',
+          `%${searchQuery}%`
+        )
+      )
+      .orderBy(({ eb, fn, or }) =>
+        eb
+          .case()
+          .when(
+            or([
+              eb(fn('lower', ['title']), '=', searchQuery),
+              eb(fn('lower', ['artist']), '=', searchQuery),
+            ])
+          )
+          .then(0)
+          .else(1)
+          .end()
+      );
 
-    const tabs = await query.execute();
+  // we add 1 to page size so we know if the next page exists
+  query = query
+    .orderBy('created_at desc')
+    .offset(page * pageSize)
+    .limit(pageSize + 1);
 
-    let hasNextPage = false;
-    if (tabs.length === pageSize + 1) {
-      hasNextPage = true;
-      tabs.pop();
-    }
+  const tabs = await query.execute();
 
-    return { tabs, hasNextPage, nextPage: page + 1 };
-  } catch (e: unknown) {
-    console.log(e);
+  let hasNextPage = false;
+  if (tabs.length === pageSize + 1) {
+    hasNextPage = true;
+    tabs.pop();
   }
 
-  return { tabs: [], hasNextPage: false, nextPage: 0 };
+  return { tabs, hasNextPage, nextPage: page + 1 };
 };
 
 export const getTabDb = async (
@@ -69,36 +63,26 @@ export const getTabDb = async (
   user?: string | null,
   requireMatch?: boolean
 ) => {
-  try {
-    let query = db.selectFrom('tab').selectAll().where('id', '=', Number(id));
+  let query = db.selectFrom('tab').selectAll().where('id', '=', Number(id));
 
-    if (requireMatch) {
-      if (!user) return { tab: null, canEdit: false };
-      query = query.where('user', '=', user);
-    } else if (user) {
-      query = query.where(eb =>
-        eb.or([eb('private', '=', false), eb('user', '=', user)])
-      );
-    } else query = query.where('private', '=', false);
+  if (requireMatch) {
+    if (!user) return { tab: null, canEdit: false };
+    query = query.where('user', '=', user);
+  } else if (user) {
+    query = query.where(eb =>
+      eb.or([eb('private', '=', false), eb('user', '=', user)])
+    );
+  } else query = query.where('private', '=', false);
 
-    const tab = (await query.executeTakeFirst()) || null;
+  const tab = (await query.executeTakeFirst()) || null;
 
-    const editAccess = tab && user ? tab.user === user : false;
+  const editAccess = tab && user ? tab.user === user : false;
 
-    return { tab, editAccess };
-  } catch (e: unknown) {
-    console.log(e);
-  }
-
-  return { tab: null, canEdit: false };
+  return { tab, editAccess };
 };
 
 export const saveTabDb = async (tab: TabInsertable) => {
-  try {
-    await db.insertInto('tab').values(tab).executeTakeFirstOrThrow();
-  } catch (e: unknown) {
-    console.log(e);
-  }
+  await db.insertInto('tab').values(tab).executeTakeFirstOrThrow();
 };
 
 export const updateTabDb = async (tab: TabUpdateable, user: string) => {
@@ -111,13 +95,9 @@ export const updateTabDb = async (tab: TabUpdateable, user: string) => {
 };
 
 export const deleteTabDb = async (id: string, user: string) => {
-  try {
-    await db
-      .deleteFrom('tab')
-      .where('user', '=', user)
-      .where('id', '=', Number(id))
-      .executeTakeFirst();
-  } catch (e: unknown) {
-    console.log(e);
-  }
+  await db
+    .deleteFrom('tab')
+    .where('user', '=', user)
+    .where('id', '=', Number(id))
+    .executeTakeFirst();
 };

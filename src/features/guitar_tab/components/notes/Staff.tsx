@@ -8,7 +8,7 @@ const Staff = () => {
 
   return (
     <ClickAway callback={() => setShowInput(false)}>
-      <div className={styles.tab_col}>
+      <div className={styles.staff}>
         <RenderNotes />
       </div>
     </ClickAway>
@@ -44,7 +44,7 @@ const RenderNotes = () => {
       }
     }
     res.push(
-      <div className={styles.tab_row} key={`staff${note}`}>
+      <div className={styles.tab_col} key={`staff${note}`}>
         {currNotes}
       </div>
     );

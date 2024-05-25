@@ -14,7 +14,7 @@ const GuitarTabChild = ({ isLoading, isError }: GuitarTabChildProps) => {
       <ConditionalHandler condition={!isLoading} fallback={<LoadingSpinner />}>
         <ConditionalHandler
           condition={!isError}
-          fallback={<ShowMessage text="An error has occured" />}
+          fallback={<ShowMessage text="This tab cannot be displayed" />}
         >
           <ConditionalHandler
             condition={isNewTab || hadIntitialTab}

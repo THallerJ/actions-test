@@ -43,6 +43,7 @@
   @extend .btn;
   background-color: vars.$blue1;
   color: black;
+
   @include smallScreen {
     width: 6rem;
   }
@@ -119,14 +120,15 @@
 }
 
 .saveBtn {
-  width: 7rem;
-  height: 2.5rem;
+  width: 5rem;
+  height: 2rem;
   border-radius: 2em;
-  font-weight: 600;
-  font-size: 1.125rem;
+  font-weight: 500;
+  font-size: 1rem;
   background-color: vars.$blue1;
   border: none;
   outline: none;
+  color: black;
 
   &:hover {
     cursor: pointer;

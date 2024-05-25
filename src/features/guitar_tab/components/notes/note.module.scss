@@ -23,17 +23,16 @@ $bg-color: hsl(0, 0%, 95%);
   align-items: center;
   color: black;
   height: 100%;
-  padding: 0 0.1em 0 0.1em;
+  padding: 0 5px 0 5px;
   left: 50%;
   transform: translate(-50%, 0%);
-  font-weight: bold;
-  font-family: sans-serif;
+  font-weight: 600;
 }
 
 .gtrStr {
   position: absolute;
-  background-color: black;
-  height: 0.1em;
+  background-color: vars.$light;
+  height: 1px;
   top: 50%;
   bottom: 50%;
   left: 0;
@@ -48,16 +47,49 @@ $bg-color: hsl(0, 0%, 95%);
   outline: 1px solid black;
   top: 50%;
   transform: translateY(-50%);
+  width: 90%;
   left: 0;
   right: 0;
   border: none;
   text-align: center;
   border-radius: 0.25em;
-  font-weight: bold;
-  font-family: sans-serif;
+  font-weight: 500;
 }
 
-.tab_row {
+@mixin tabBorderRadius($num) {
+  $radius: 0.5rem;
+
+  & > :nth-child(#{$num}) {
+    & > :first-child {
+      border-radius: 0 $radius 0 0;
+    }
+    & > :last-child {
+      border-radius: 0 0 $radius 0;
+    }
+  }
+
+  & > :nth-child(#{$num} + 1) {
+    & > :first-child {
+      border-radius: $radius 0 0 0;
+    }
+    & > :last-child {
+      border-radius: 0 0 0 $radius;
+    }
+  }
+}
+
+.staff {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 1.25em;
+  @include tabBorderRadius('20n');
+
+  @include vars.md {
+    @include tabBorderRadius('10n');
+  }
+}
+
+.tab_col {
   display: flex;
   flex-direction: column;
   flex-basis: 5%;
@@ -67,10 +99,4 @@ $bg-color: hsl(0, 0%, 95%);
   @include vars.md {
     flex-basis: 10%;
   }
-}
-
-.tab_col {
-  display: flex;
-  flex-wrap: wrap;
-  row-gap: 1.25em;
 }

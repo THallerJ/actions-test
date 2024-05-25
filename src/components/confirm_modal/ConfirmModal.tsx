@@ -13,11 +13,16 @@ const ConfirmModal = ({
       <div className={styles.dialogue}>
         <div className={styles.text}>{children}</div>
         <div className={styles.buttons}>
-          <button className={`${styles.button}`} onClick={onClose}>
+          <button
+            className={`${styles.button}`}
+            aria-label="no"
+            onClick={onClose}
+          >
             No
           </button>
           <button
             className={`${styles.button}`}
+            aria-label="yes"
             onClick={() => {
               onConfirm();
               onClose();

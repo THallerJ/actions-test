@@ -2,30 +2,28 @@ import styles from './styles/tab_form.module.scss';
 import { saveTab } from '@/actions';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { useTabContext } from '../../stores/useTabContext';
-import { TabSelectableSchema, SaveTabResp } from '@/common/types.';
-import { useNotify } from '@/hooks';
-import { ConditionalHandler, Notification } from '@/components';
-import { useState, useEffect } from 'react';
+import { TabSelectableSchema } from '@/common/types.';
+import { ConditionalHandler } from '@/components';
 import FormPending from './FormPending';
+import { useAlertContext } from '@/stores';
 
 const TabForm = () => {
   const { user } = useUser();
   const { tab, hadIntitialTab } = useTabContext();
-  const [showAlert, notifyAlert, cancelAlert] = useNotify(3000);
-  const [saveResp, setSaveResp] = useState<SaveTabResp | { code: null }>({
-    code: null,
-  });
-
+  const { notifyAlert } = useAlertContext();
   const result = TabSelectableSchema.safeParse(tab);
 
   const saveTabClientAction = async (formData: FormData) => {
-    const res = await saveTab(formData);
-    setSaveResp(res);
+    try {
+      await saveTab(formData);
+      notifyAlert({ isError: false, message: 'Tab saved!' });
+    } catch (e: unknown) {
+      notifyAlert({
+        isError: true,
+        message: 'An error occured when saving the tab',
+      });
+    }
   };
-
-  useEffect(() => {
-    if (saveResp.code !== null) notifyAlert();
-  }, [saveResp, notifyAlert]);
 
   return (
     <>
@@ -97,16 +95,15 @@ const TabForm = () => {
           name="gtr_string_count"
           value={tab.gtr_string_count}
         />
-        <button type="submit" className={styles.saveBtn} title="save">
+        <button
+          aria-label="save"
+          type="submit"
+          className={styles.saveBtn}
+          title="save"
+        >
           Save
         </button>
       </form>
-      <Notification
-        show={showAlert}
-        error={saveResp.code !== 200 ? true : false}
-        text={saveResp.code === 200 ? 'Tab saved!' : 'An error occured'}
-        onCancel={cancelAlert}
-      />
     </>
   );
 };

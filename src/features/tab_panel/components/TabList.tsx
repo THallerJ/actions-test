@@ -2,13 +2,7 @@
 import { useRef } from 'react';
 import TabItem from './TabItem';
 import styles from './styles/tab_panel.module.scss';
-import {
-  LoadingBar,
-  Spinner,
-  ConditionalHandler,
-  Notification,
-  Message,
-} from '@/components';
+import { LoadingBar, Spinner, ConditionalHandler, Message } from '@/components';
 import { useInfiniteScroll } from '@/hooks';
 import { TabArrayResp } from '@/common/types.';
 import { UseInfiniteQueryResult, InfiniteData } from '@tanstack/react-query';
@@ -21,17 +15,10 @@ const TabList = () => {
   const { searchQuery } = useTabPanelContext();
   const { query, mutation } = useQueryContext();
   const root = useRef(null);
-  const { showError, cancelError } = useQueryContext();
   const lastItemCb = useInfiniteScroll(() => query.fetchNextPage(), root);
 
   return (
     <div className={styles.wrapper}>
-      <Notification
-        error
-        text="An error has occured"
-        show={showError}
-        onCancel={cancelError}
-      />
       <ConditionalHandler
         condition={
           searchQuery !== null && searchQuery !== '' && !query.isLoading
@@ -63,7 +50,12 @@ const TabList = () => {
 export default TabList;
 
 const RenderTabList = ({ query, lastItemCb }: RenderTabListProps) => {
-  if (!query.isLoading && query.data) {
+  if (
+    !query.isLoading &&
+    query.data &&
+    query.data.pages[0].tabs.length > 0 &&
+    !query.isError
+  ) {
     const arr: React.ReactNode[] = [];
 
     query.data.pages.forEach((page, i) => {
@@ -83,15 +75,16 @@ const RenderTabList = ({ query, lastItemCb }: RenderTabListProps) => {
         );
       });
     });
+    return arr;
+  }
 
-    return query.data.pages[0].tabs.length > 0 ? (
-      arr
-    ) : (
+  if (!query.isLoading)
+    return (
       <div className={styles.emptyListMsg}>
         <Message>
           <span>
             There are no tabs here.{' '}
-            <Link href="/tab_editor">
+            <Link prefetch={false} href="/tab_editor">
               <span className={styles.msgLink}>Click here</span>
             </Link>{' '}
             to create a tab.
@@ -99,7 +92,6 @@ const RenderTabList = ({ query, lastItemCb }: RenderTabListProps) => {
         </Message>
       </div>
     );
-  }
 };
 
 type RenderTabListProps = {

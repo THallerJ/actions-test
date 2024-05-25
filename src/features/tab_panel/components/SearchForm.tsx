@@ -34,7 +34,7 @@ const SearchForm = () => {
         placeholder="Search for song or artist"
         onChange={e => setCurr(e.target.value)}
       />
-      <button className={styles.searchBtn}>
+      <button aria-label="search" className={styles.searchBtn}>
         {doReset ? <CloseIcon /> : <SearchIcon />}
       </button>
     </form>

@@ -1,13 +1,9 @@
 'use server';
-import {
-  TabInsertableSchema,
-  TabUpdateableSchema,
-  SaveTabResp,
-} from '@/common/types.';
+import { TabInsertableSchema, TabUpdateableSchema } from '@/common/types.';
 import { saveTabDb, updateTabDb } from '@/db';
 import { getSession } from '@auth0/nextjs-auth0';
 
-export const saveTab = async (formData: FormData): Promise<SaveTabResp> => {
+export const saveTab = async (formData: FormData) => {
   const form = Object.fromEntries(formData.entries());
 
   const tabUpdateableResult = TabUpdateableSchema.safeParse(form);
@@ -25,9 +21,7 @@ export const saveTab = async (formData: FormData): Promise<SaveTabResp> => {
     } else if (tabInsertResult.success) {
       await saveTabDb(tabInsertResult.data);
     }
-
-    return { code: 200 };
   } else {
-    return { code: 500 };
+    throw Error('error saving tab');
   }
 };

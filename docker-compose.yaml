@@ -11,7 +11,6 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true
-      - MONGO_URI=mongodb://db/db_data
       - SESSION_SECRET=secret
       - ENCRYPTION_KEY=encryptionkey
       - NODE-ENV=development

@@ -15,9 +15,9 @@ const useNotify = (time?: number) => {
     );
   }, [setNotified, time]);
 
-  const cancel = (): void => {
+  const cancel = useCallback((): void => {
     setNotified(false);
-  };
+  }, [setNotified]);
 
   return [notified, notify, cancel] as const;
 };

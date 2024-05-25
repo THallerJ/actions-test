@@ -9,10 +9,16 @@ const MobileMenu = ({ showMenu, onNavigate }: MobileMenuProps) => {
         ${showMenu ? styles.mobileMenuTransform : null}`}
     >
       <nav className={styles.navMobile}>
-        <Link href={'/'} className={styles.linkMobile} onClick={onNavigate}>
+        <Link
+          prefetch={false}
+          href={'/'}
+          className={styles.linkMobile}
+          onClick={onNavigate}
+        >
           View Tabs
         </Link>
         <Link
+          prefetch={false}
           href={'/tab_editor'}
           className={styles.linkMobile}
           onClick={onNavigate}
@@ -20,6 +26,7 @@ const MobileMenu = ({ showMenu, onNavigate }: MobileMenuProps) => {
           Create Tab
         </Link>
         <Link
+          prefetch={false}
           href={'/my_tabs'}
           className={styles.linkMobile}
           onClick={onNavigate}

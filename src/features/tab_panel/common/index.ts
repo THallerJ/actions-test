@@ -20,16 +20,23 @@ export const fetchTabs = async (
   const json = await resp.json();
 
   const result = TabArrayRespSchema.safeParse(json);
-
-  if (result.success) return result.data;
-  else return { nextPage: 0, tabs: [], hasNextPage: false };
+  if (result.success) {
+    return result.data;
+  } else {
+    throw Error();
+  }
 };
 
 export const onDelete = async (id: number) => {
   if (id) {
     const params = new URLSearchParams();
     params.append('id', String(id));
-    await fetch(`/api/tab?${params}`, { method: 'DELETE' });
+
+    const deleteResponse = await fetch(`/api/tab?${params}`, {
+      method: 'DELETE',
+    });
+
+    if (deleteResponse.status !== 200) throw Error(deleteResponse.statusText);
   }
 };
 

@@ -11,7 +11,7 @@ const MenuButton = ({ onClick, toggled }: MenuButtonprops) => {
   );
 
   return (
-    <button className={styles.menu} onClick={onClick}>
+    <button aria-label="menu" className={styles.menu} onClick={onClick}>
       <span className={`${styles.topMenu} ${animation}`}></span>
       <span className={`${styles.midMenu} ${animation}`}></span>
       <span className={`${styles.bottomMenu} ${animation}`}></span>

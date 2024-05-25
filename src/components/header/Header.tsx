@@ -14,20 +14,24 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.titleBlock}>
-        <Link href={'/'} className={styles.link}>
+        <Link prefetch={false} href={'/'} className={styles.link}>
           <h1 onClick={onNavigate} className={styles.title}>
             Guitar Tab
           </h1>
         </Link>
       </div>
       <nav className={styles.nav}>
-        <Link href={'/'} className={styles.linkLarge}>
+        <Link prefetch={false} href={'/'} className={styles.linkLarge}>
           View Tabs
         </Link>
-        <Link href={'/tab_editor'} className={styles.linkLarge}>
+        <Link
+          prefetch={false}
+          href={'/tab_editor'}
+          className={styles.linkLarge}
+        >
           Create Tab
         </Link>
-        <Link href={'/my_tabs'} className={styles.linkLarge}>
+        <Link prefetch={false} href={'/my_tabs'} className={styles.linkLarge}>
           My Tabs
         </Link>
       </nav>

@@ -1,15 +1,27 @@
 'use client';
+import { useEffect } from 'react';
 import { TabRespSchema } from '@/common/types.';
 import { useQuery } from '@tanstack/react-query';
 import { TabContextProvider } from '../../stores/useTabContext';
 import styles from './guitar_tab.module.scss';
 import GuitarTabChild from './GuitarTabChild';
+import { useAlertContext } from '@/stores';
 
 const GuitarTab = ({ id, readonly }: GuitarTabProps) => {
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: [id],
     queryFn: () => fetchTab(id, readonly),
   });
+  const { notifyAlert } = useAlertContext();
+
+  useEffect(() => {
+    if (error) {
+      notifyAlert({
+        isError: true,
+        message: 'An error occured when retrieving the tab',
+      });
+    }
+  }, [error, notifyAlert]);
 
   return (
     <div className={styles.wrapper}>
@@ -39,6 +51,7 @@ const fetchTab = async (id?: string, readonly?: boolean) => {
     const result = TabRespSchema.safeParse(json);
 
     if (result.success) return result.data;
+    else throw Error();
   }
 
   return null;

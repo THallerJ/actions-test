@@ -19,6 +19,7 @@ const Form = () => {
   return (
     <div className={styles.formWrapper}>
       <button
+        aria-label="toggle form"
         className={`${styles.openFormBtn} ${styles.hideDesktop}`}
         onClick={toggleShowForm}
       >

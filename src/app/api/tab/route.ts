@@ -15,10 +15,11 @@ export const GET = async (req: NextRequest) => {
     return NextResponse.json(res);
   } catch (e: unknown) {
     if (isDynamicServerError(e)) throw e;
-    console.log(e);
+    return NextResponse.json(
+      { message: 'error retrieving tab' },
+      { status: 500 }
+    );
   }
-
-  return NextResponse.json(null);
 };
 
 export const DELETE = async (req: NextRequest) => {
@@ -28,10 +29,12 @@ export const DELETE = async (req: NextRequest) => {
     const user = session?.user.nickname;
 
     if (id) await deleteTabDb(id, user);
+    return NextResponse.json({ message: 'tab deleted' });
   } catch (e: unknown) {
     if (isDynamicServerError(e)) throw e;
-    console.log(e);
+    return NextResponse.json(
+      { message: 'error deleting tab' },
+      { status: 500 }
+    );
   }
-
-  return NextResponse.json(null);
 };

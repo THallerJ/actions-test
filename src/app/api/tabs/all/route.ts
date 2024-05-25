@@ -12,8 +12,9 @@ export const GET = async (req: NextRequest) => {
     return NextResponse.json(res);
   } catch (e: unknown) {
     if (isDynamicServerError(e)) throw e;
-    console.log(e);
+    return NextResponse.json(
+      { message: 'error retrieving tabs' },
+      { status: 500 }
+    );
   }
-
-  return NextResponse.json({ nextPage: 0, tabs: [], hasNextPage: false });
 };

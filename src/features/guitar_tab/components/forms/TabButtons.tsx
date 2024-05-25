@@ -46,14 +46,26 @@ const EditorButtons = () => {
 
   return (
     <>
-      <button className={styles.btnClear} onClick={onClickReset}>
+      <button
+        aria-label="clear"
+        className={styles.btnClear}
+        onClick={onClickReset}
+      >
         Clear
       </button>
       <div className={styles.btnRight}>
-        <button className={styles.btn} onClick={handleAddStaff}>
+        <button
+          aria-label="add staff"
+          className={styles.btn}
+          onClick={handleAddStaff}
+        >
           Add Staff
         </button>
-        <button className={styles.btn} onClick={onClickDelete}>
+        <button
+          aria-label="delete staff"
+          className={styles.btn}
+          onClick={onClickDelete}
+        >
           Delete Staff
         </button>
         <ConfirmModal
@@ -82,8 +94,10 @@ const ViewerButtons = () => {
   return (
     <div className={styles.viewerButtonsFlex}>
       <ConditionalHandler condition={editAccess}>
-        <Link href={`/tab_editor/${id}`}>
-          <button className={styles.btnEdit}>Edit</button>
+        <Link prefetch={false} href={`/tab_editor/${id}`}>
+          <button aria-label="edit" className={styles.btnEdit}>
+            Edit
+          </button>
         </Link>
       </ConditionalHandler>
       <ConditionalHandler condition={result.success && result.data.private}>

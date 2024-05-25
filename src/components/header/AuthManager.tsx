@@ -21,7 +21,7 @@ const ProtectedAuth = ({ isMobile }: AuthManagerProps) => {
   return (
     <div className={isMobile ? styles.loggedInMobile : styles.loggedIn}>
       <span>Hi, {user?.nickname}</span>
-      <Link href="/api/auth/logout" className={styles.link}>
+      <Link prefetch={false} href="/api/auth/logout" className={styles.link}>
         Logout
       </Link>
     </div>
@@ -30,11 +30,11 @@ const ProtectedAuth = ({ isMobile }: AuthManagerProps) => {
 
 const UnprotectedAuth = () => (
   <div className={styles.auth}>
-    <Link href="/api/auth/login" className={styles.link}>
+    <Link prefetch={false} href="/api/auth/login" className={styles.link}>
       Login
     </Link>
     <span>/</span>
-    <Link href="/api/auth/signup" className={styles.link}>
+    <Link prefetch={false} href="/api/auth/signup" className={styles.link}>
       Sign Up
     </Link>
   </div>

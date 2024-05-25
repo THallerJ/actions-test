@@ -15,6 +15,7 @@ const TabItem = ({ item }: TabItemProps) => {
   return (
     <div className={styles.item}>
       <Link
+        prefetch={false}
         href={{
           pathname: `/tab_viewer/` + item.id,
         }}
@@ -29,6 +30,7 @@ const TabItem = ({ item }: TabItemProps) => {
       <div className={styles.rightSide}>
         <ConditionalHandler condition={user?.nickname === item?.user}>
           <button
+            aria-label="delete"
             className={styles.deleteBtn}
             onClick={() => setShowDelete(true)}
           >
