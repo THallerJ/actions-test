@@ -68,9 +68,9 @@ const RenderTabList = ({ query, lastItemCb }: RenderTabListProps) => {
             key={String(item.id)}
           >
             <TabItem item={item} />
-            {showDivider(query.data, i, j) ? (
+            <ConditionalHandler condition={showDivider(query.data, i, j)}>
               <div className={styles.itemDivider} />
-            ) : null}
+            </ConditionalHandler>
           </div>
         );
       });

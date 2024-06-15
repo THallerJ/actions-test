@@ -2,18 +2,21 @@ import { TabArrayResp, TabArrayRespSchema } from '@/common/types.';
 import { InfiniteData } from '@tanstack/react-query';
 
 export const fetchTabs = async (
-  apiRoute: string,
+  userOnly: boolean,
   page?: unknown,
   searchQuery?: string | null
 ): Promise<TabArrayResp> => {
   const getUrl = (): string => {
     const params = new URLSearchParams();
 
+    params.append('user-only', userOnly ? '1' : '0');
+
     if (page && typeof page === 'number') params.append('page', String(page));
+
     if (searchQuery && searchQuery.length > 0)
       params.append('searchQuery', searchQuery);
 
-    return params.size > 0 ? `${apiRoute}?${params}` : apiRoute;
+    return `api/tabs?${params}`;
   };
 
   const resp = await fetch(getUrl());

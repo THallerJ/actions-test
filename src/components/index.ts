@@ -8,6 +8,7 @@ import ConditionalHandler from './ConditionalHandler';
 import Message from './message/Message';
 import ConfirmModal from './confirm_modal/ConfirmModal';
 import Notification from './notification/Notification';
+import AlertWrapper from './AlertWrapper';
 
 export {
   ClickAway,
@@ -20,4 +21,5 @@ export {
   Message,
   ConfirmModal,
   Notification,
+  AlertWrapper,
 };

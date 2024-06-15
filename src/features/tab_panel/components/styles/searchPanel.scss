@@ -6,7 +6,8 @@
   justify-content: center;
   align-items: center;
   background-color: vars.$dark12;
-  padding: 1.5rem 6rem 1.5rem 6rem;
+  padding: 1rem 6rem 1.5rem 6rem;
+  position: relative;
 
   @include vars.md {
     padding: 1.5rem 4rem 1.5rem 4rem;
@@ -38,7 +39,7 @@
   color: white;
 }
 
-.searchBtn {
+.btn {
   background: none;
   cursor: pointer;
   width: 1.25rem;
@@ -48,10 +49,31 @@
   border: none;
   outline: none;
   border-radius: 100%;
+}
 
+.refreshBtn {
   &:hover {
-    background-color: hsl(0, 0%, 90%);
+    box-shadow: 0px 0px 4px 4px vars.$dark2;
+    background-color: vars.$dark2;
   }
+}
+
+.refreshFlex {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.searchBtn {
+  &:hover {
+    box-shadow: 0px 0px 4px 4px vars.$text2;
+    background-color: vars.$text2;
+  }
+}
+
+.closeIcon {
+  height: 16px;
+  width: 16px;
 }
 
 .searchInput {
@@ -73,8 +95,19 @@
 }
 
 .searchMsg {
-  display: flex;
-  justify-content: center;
+  display: block;
   color: vars.$text2;
-  padding: 1rem 2rem 1rem 2rem;
+  padding: 1.5rem 6rem 0 6rem;
+
+  @include vars.md {
+    padding: 1.5rem 4rem 0 4rem;
+  }
+
+  @include vars.sm {
+    padding: 1rem 2rem 0 2rem;
+  }
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

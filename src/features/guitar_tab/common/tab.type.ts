@@ -1,16 +1,27 @@
-import { TabEditable, TabSelectable } from '@/common/types.';
+import { TabEditable } from '@/common/types.';
+
+export type NoPayloadAction =
+  | { type: 'ADD_STAFF' }
+  | { type: 'DELETE_STAFF' }
+  | { type: 'RESET' };
+
+export type AddNoteAction = {
+  type: 'ADD_NOTE';
+  payload: { gtrStr: number; noteNum: number; fretNum: string };
+};
+
+export type DeleteNoteAction = {
+  type: 'DELETE_NOTE';
+  payload: { gtrStr: number; noteNum: number };
+};
+
+export type SetAction = { type: 'SET'; payload: { tab: TabEditable } };
 
 export type ReducerAction =
-  | { type: 'ADD_STAFF' | 'DELETE_STAFF' | 'RESET' }
-  | { type: 'SET'; payload: { tab: TabEditable | TabSelectable } }
-  | {
-      type: 'ADD_NOTE';
-      payload: { gtrStr: number; noteNum: number; fretNum: string };
-    }
-  | {
-      type: 'DELETE_NOTE';
-      payload: { gtrStr: number; noteNum: number };
-    };
+  | NoPayloadAction
+  | AddNoteAction
+  | DeleteNoteAction
+  | SetAction;
 
 export type NoteProps = {
   fret?: string;

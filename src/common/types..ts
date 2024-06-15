@@ -28,14 +28,14 @@ export const TabTableSchema = z.object({
   notes: JsonNotes,
   title: z.string(),
   artist: z.string(),
-  user: z.string(),
-  private: z.boolean(),
-  count: z.number(),
+  username: z.string(),
+  is_private: z.boolean(),
+  note_count: z.number(),
   gtr_string_count: z.number(),
 });
 
 export const TabEditableSchema = TabTableSchema.pick({
-  count: true,
+  note_count: true,
   gtr_string_count: true,
 }).extend({ notes: NoteSchema });
 

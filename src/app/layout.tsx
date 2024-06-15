@@ -1,11 +1,10 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
-import { Header } from '@/components';
+import { Header, AlertWrapper } from '@/components';
 import './globals.scss';
 import styles from './layout.module.scss';
 import LayoutWrapper from './LayoutWrapper';
-import AlertWrapper from './AlertWrapper';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -13,7 +12,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Guitar Tab',
+  title: 'Guitar Tabs',
   description: 'A website for creating and viewing guitar tablature.',
 };
 

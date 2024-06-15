@@ -3,9 +3,9 @@ import { useTabContext } from '../../stores/useTabContext';
 import NoteInput from './NoteInput';
 import { NoteProps } from '../../common/tab.type';
 
-const Note = ({ fret, note, str }: NoteProps) => {
+const Note = ({ fret, note, str, bar }: NoteProps & { bar?: boolean }) => {
   const noteKey = `${str}s${note}n`;
-  const { setActiveKey, setShowInput, readonly } = useTabContext();
+  const { setActiveKey, setShowInput, readonly, activeKey } = useTabContext();
 
   const handleOnClick = () => {
     setActiveKey(noteKey);
@@ -17,8 +17,10 @@ const Note = ({ fret, note, str }: NoteProps) => {
       className={`${styles.note} ${!readonly ? styles.hoverPointer : null}`}
       onClick={handleOnClick}
       key={noteKey}
+      id={`note_${note}_str_${str}`}
     >
       <span className={styles.gtrStr} />
+      {bar ? <span className={styles.bar} /> : null}
       <RenderNote noteKey={noteKey} str={str} fret={fret} note={note} />
     </div>
   );

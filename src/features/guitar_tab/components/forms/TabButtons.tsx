@@ -36,11 +36,11 @@ const EditorButtons = () => {
   };
 
   const onClickDelete = () => {
-    if (tab.count > TAB_COUNT) setShowDelete(true);
+    if (tab.note_count > TAB_COUNT) setShowDelete(true);
   };
 
   const onClickReset = () => {
-    if (Object.keys(tab.notes).length > 0 || tab.count > TAB_COUNT)
+    if (Object.keys(tab.notes).length > 0 || tab.note_count > TAB_COUNT)
       setShowReset(true);
   };
 
@@ -100,7 +100,7 @@ const ViewerButtons = () => {
           </button>
         </Link>
       </ConditionalHandler>
-      <ConditionalHandler condition={result.success && result.data.private}>
+      <ConditionalHandler condition={result.success && result.data.is_private}>
         <span className={styles.private_viewer_buttons}>Private</span>
       </ConditionalHandler>
     </div>

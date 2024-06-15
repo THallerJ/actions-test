@@ -34,7 +34,7 @@
 
 .profile {
   flex: 1;
-  @include globals.hideDown(vars.$mobileBreakpoint);
+  @include globals.hideDown(vars.$mobileBreakpoint - 1);
 }
 
 .auth {

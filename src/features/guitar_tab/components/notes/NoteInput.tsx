@@ -39,6 +39,7 @@ const NoteInput = ({ note, str, fret }: NoteProps) => {
       className={styles.noteInput}
       defaultValue={fret !== undefined && fret !== '|' ? fret : ''}
       type="text"
+      id={`input_note_${note}_str_${str}`}
       maxLength={3}
       autoFocus
       onKeyDown={handleKeyDown}

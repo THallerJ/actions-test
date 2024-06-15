@@ -40,6 +40,15 @@ $bg-color: hsl(0, 0%, 95%);
   width: 100%;
 }
 
+.bar {
+  position: absolute;
+  background-color: vars.$light;
+  height: 100%;
+  width: 1px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
 .noteInput {
   position: absolute;
   display: flex;

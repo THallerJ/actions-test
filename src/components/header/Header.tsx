@@ -16,7 +16,7 @@ const Header = () => {
       <div className={styles.titleBlock}>
         <Link prefetch={false} href={'/'} className={styles.link}>
           <h1 onClick={onNavigate} className={styles.title}>
-            Guitar Tab
+            Guitar Tabs
           </h1>
         </Link>
       </div>

@@ -37,3 +37,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/cypress/screenshots
+/cypress/downloads
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/tests-examples
+/e2e/.auth/
+/e2e/storage/

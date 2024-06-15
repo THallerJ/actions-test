@@ -3,7 +3,7 @@ import { Pool } from 'pg';
 import { TabTable } from '@/common/types.';
 
 export interface Database {
-  tab: TabTable;
+  tabs: TabTable;
 }
 
 type GetDbProps = {

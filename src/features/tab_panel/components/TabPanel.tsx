@@ -9,13 +9,8 @@ const TabPanel = ({ title, ...props }: TabPanelProps) => {
   return (
     <TabPanelContextProvider {...props}>
       <section id="tab-panel" className={styles.tabPanel}>
-        <div className={styles.searchWrapper}>
-          <label htmlFor="tab_search" className={styles.searchLabel}>
-            {title}
-          </label>
-          <SearchForm />
-        </div>
         <QueryContextProvider>
+          <SearchForm title={title} />
           <TabList />
         </QueryContextProvider>
       </section>
@@ -27,6 +22,6 @@ export default TabPanel;
 
 type TabPanelProps = {
   title: string;
-  apiRoute: string;
+  userOnly: boolean;
   route: string;
 };

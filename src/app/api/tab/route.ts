@@ -12,6 +12,7 @@ export const GET = async (req: NextRequest) => {
 
     let res = null;
     if (id) res = await getTabDb(id, user, !readonly);
+
     return NextResponse.json(res);
   } catch (e: unknown) {
     if (isDynamicServerError(e)) throw e;

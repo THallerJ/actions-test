@@ -1,9 +1,11 @@
 import { TabInsertable, TabSelectable, TabUpdateable } from '@/common/types.';
 import { db } from './config';
+import { Expression, SqlBool } from 'kysely';
 
 export const getTabsArrayDb = async (
   page: number,
   user?: string | null,
+  userOnly?: boolean,
   searchQuery?: string | null
 ): Promise<{
   tabs: TabSelectable[];
@@ -13,10 +15,21 @@ export const getTabsArrayDb = async (
   const pageSize = 15;
   searchQuery = searchQuery?.toLowerCase();
 
-  let query = db.selectFrom('tab').selectAll();
+  let query = db.selectFrom('tabs').selectAll();
 
-  if (user) query = query.where('user', '=', user);
-  else query = query.where('private', '=', false);
+  query = query.where(eb => {
+    const ors: Expression<SqlBool>[] = [];
+
+    if (user) {
+      ors.push(eb('username', '=', user));
+    }
+
+    if (!userOnly) {
+      ors.push(eb('is_private', '=', false));
+    }
+
+    return eb.or(ors);
+  });
 
   if (searchQuery)
     query = query
@@ -63,41 +76,55 @@ export const getTabDb = async (
   user?: string | null,
   requireMatch?: boolean
 ) => {
-  let query = db.selectFrom('tab').selectAll().where('id', '=', Number(id));
+  let query = db.selectFrom('tabs').selectAll().where('id', '=', Number(id));
 
   if (requireMatch) {
     if (!user) return { tab: null, canEdit: false };
-    query = query.where('user', '=', user);
+    query = query.where('username', '=', user);
   } else if (user) {
     query = query.where(eb =>
-      eb.or([eb('private', '=', false), eb('user', '=', user)])
+      eb.or([eb('is_private', '=', false), eb('username', '=', user)])
     );
-  } else query = query.where('private', '=', false);
+  } else query = query.where('is_private', '=', false);
 
   const tab = (await query.executeTakeFirst()) || null;
 
-  const editAccess = tab && user ? tab.user === user : false;
+  const editAccess = tab && user ? tab.username === user : false;
 
   return { tab, editAccess };
 };
 
 export const saveTabDb = async (tab: TabInsertable) => {
-  await db.insertInto('tab').values(tab).executeTakeFirstOrThrow();
+  const found = await db
+    .selectFrom('tabs')
+    .where('username', '=', tab.username)
+    .where('title', '=', tab.title)
+    .where('artist', '=', tab.artist)
+    .executeTakeFirst();
+
+  if (!found) await db.insertInto('tabs').values(tab).executeTakeFirstOrThrow();
+  else
+    db.updateTable('tabs')
+      .set(tab)
+      .where('username', '=', tab.username)
+      .where('title', '=', tab.title)
+      .where('artist', '=', tab.artist)
+      .executeTakeFirst();
 };
 
 export const updateTabDb = async (tab: TabUpdateable, user: string) => {
   if (tab.id)
-    db.updateTable('tab')
+    db.updateTable('tabs')
       .set(tab)
       .where('id', '=', tab.id)
-      .where('user', '=', user)
+      .where('username', '=', user)
       .executeTakeFirst();
 };
 
 export const deleteTabDb = async (id: string, user: string) => {
   await db
-    .deleteFrom('tab')
-    .where('user', '=', user)
+    .deleteFrom('tabs')
+    .where('username', '=', user)
     .where('id', '=', Number(id))
     .executeTakeFirst();
 };

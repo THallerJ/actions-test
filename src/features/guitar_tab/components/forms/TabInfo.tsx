@@ -31,7 +31,7 @@ const TabInfo = ({ full }: TabInfoProps) => {
               <label htmlFor="title" className={styles.textLabelNoInput}>
                 Created By
               </label>
-              <span className={styles.text}>{result.data.user}</span>
+              <span className={styles.text}>{result.data.username}</span>
             </div>
           </div>
         </ConditionalHandler>

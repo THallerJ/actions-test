@@ -21,14 +21,14 @@ const TabItem = ({ item }: TabItemProps) => {
         }}
         className={styles.infoCol}
       >
-        <ConditionalHandler condition={item.private}>
+        <ConditionalHandler condition={item.is_private}>
           <span className={styles.private}>Private</span>
         </ConditionalHandler>
         <span className={styles.songTitle}>{item.title}</span>
         <span className={styles.artistTitle}>{item.artist}</span>
       </Link>
       <div className={styles.rightSide}>
-        <ConditionalHandler condition={user?.nickname === item?.user}>
+        <ConditionalHandler condition={user?.nickname === item?.username}>
           <button
             aria-label="delete"
             className={styles.deleteBtn}
@@ -38,13 +38,13 @@ const TabItem = ({ item }: TabItemProps) => {
           </button>
         </ConditionalHandler>
         <div className={styles.createdCol}>
-          <span className={styles.createdBy}>created by: {item.user}</span>
+          <span className={styles.createdBy}>created by: {item.username}</span>
         </div>
       </div>
       <ConfirmModal
         onConfirm={() => mutation.mutate(item.id)}
         onClose={() => setShowDelete(false)}
-        show={user?.nickname === item.user && showDelete}
+        show={user?.nickname === item.username && showDelete}
       >
         <span>
           Are you sure you want to delete{' '}

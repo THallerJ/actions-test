@@ -21,7 +21,7 @@ const RenderNotes = () => {
   const { tab } = useTabContext();
   const res = [];
 
-  for (let note = 0; note < tab.count; note++) {
+  for (let note = 0; note < tab.note_count; note++) {
     const currNotes: React.ReactNode[] = [];
 
     for (let str = 0; str < tab.gtr_string_count; str++) {
@@ -31,7 +31,10 @@ const RenderNotes = () => {
       ) {
         currNotes.push(
           <Note
-            fret={tab.notes[note]['bar'] ? '|' : tab.notes[note][str]}
+            fret={
+              tab.notes[note][str] !== '|' ? tab.notes[note][str] : undefined
+            }
+            bar={tab.notes[note]['bar']}
             note={note}
             str={str}
             key={`hasNote${str}${note}`}

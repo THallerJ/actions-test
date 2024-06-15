@@ -17,14 +17,14 @@ export const QueryContext = createContext<QueryContextProps | null>(null);
 export const QueryContextProvider = ({
   children,
 }: QueryContextProviderProps) => {
-  const { apiRoute, searchQuery } = useTabPanelContext();
+  const { userOnly, searchQuery } = useTabPanelContext();
   const queryClient = useQueryClient();
-  const queryKey = [apiRoute, searchQuery];
+  const queryKey = [userOnly, searchQuery];
   const { notifyAlert } = useAlertContext();
 
   const query = useInfiniteQuery<TabArrayResp, Error>({
     queryKey,
-    queryFn: ({ pageParam }) => fetchTabs(apiRoute, pageParam, searchQuery),
+    queryFn: ({ pageParam }) => fetchTabs(userOnly, pageParam, searchQuery),
     getNextPageParam: lastPage => {
       if (lastPage.hasNextPage) return lastPage.nextPage;
     },

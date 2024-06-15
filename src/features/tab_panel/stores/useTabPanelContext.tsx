@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 export const TabPanelContext = createContext<TabPanelContextProps | null>(null);
 
 export const TabPanelContextProvider = ({
-  apiRoute,
+  userOnly,
   route,
   children,
 }: TabPanelContextProviderProps) => {
@@ -12,7 +12,7 @@ export const TabPanelContextProvider = ({
   const searchQuery = searchParams.get('search_query');
 
   const value = {
-    apiRoute,
+    userOnly,
     route,
     searchQuery,
   };
@@ -36,13 +36,13 @@ export const useTabPanelContext = () => {
 };
 
 type TabPanelContextProps = {
-  apiRoute: string;
+  userOnly: boolean;
   route: string;
   searchQuery: string | null;
 };
 
 type TabPanelContextProviderProps = {
-  apiRoute: string;
+  userOnly: boolean;
   route: string;
   children: React.ReactNode;
 };

@@ -67,15 +67,14 @@ const TabForm = () => {
             />
           </div>
           <div className={styles.checkboxWrapper}>
-            <input type="hidden" value="0" name="private" id="private" />
             <input
               type="checkbox"
-              name="private"
-              id="private"
+              name="is_private"
+              id="is_private"
               className={styles.checkbox}
-              defaultChecked={result.success ? result.data.private : false}
+              defaultChecked={result.success ? result.data.is_private : false}
             />
-            <label htmlFor="private" className={styles.checkboxLabel}>
+            <label htmlFor="is_private" className={styles.checkboxLabel}>
               Private
             </label>
           </div>
@@ -87,9 +86,9 @@ const TabForm = () => {
             value={result.success ? result.data.id : 'undefined'}
           />
         </ConditionalHandler>
-        <input type="hidden" name="user" value={user?.nickname || ''} />
+        <input type="hidden" name="username" value={user?.nickname || ''} />
         <input type="hidden" name="notes" value={JSON.stringify(tab.notes)} />
-        <input type="hidden" name="count" value={tab.count} />
+        <input type="hidden" name="note_count" value={tab.note_count} />
         <input
           type="hidden"
           name="gtr_string_count"

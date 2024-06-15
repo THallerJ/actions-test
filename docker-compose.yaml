@@ -1,30 +1,58 @@
-version: '3.8'
-
 services:
-  client:
+  client-dev:
+    image: hallert60/guitar-tab-site-client-dev
+    profiles:
+      - dev
+    container_name: client-dev
     depends_on:
-      - db
+      - db-dev
     build:
       context: .
     ports:
-      - 3000:3000
+      - 4000:3000
     environment:
-      - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true
-      - SESSION_SECRET=secret
-      - ENCRYPTION_KEY=encryptionkey
-      - NODE-ENV=development
-      - API_URL=http://localhost:3000
+      - AUTH0_SECRET=auth0secret
+      - AUTH0_BASE_URL=http://localhost:4000
+      - API_URL=http://localhost:4000
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
-      - POSTGRES_HOST=db
+      - POSTGRES_HOST=db-dev
       - POSTGRES_PORT=5432
       - POSTGRES_DATABASE=database
     volumes:
       - .:/app
       - /app/node_modules
       - /app/.next
-  db:
+  client-e2e:
+    image: hallert60/guitar-tab-site-client-e2e
+    profiles:
+      - e2e
+    container_name: client-e2e
+    depends_on:
+      - db-e2e
+    build:
+      context: .
+    ports:
+      - 3000:3000
+    environment:
+      - WATCHPACK_POLLING=true
+      - AUTH0_SECRET=auth0secret
+      - AUTH0_BASE_URL=http://localhost:3000
+      - API_URL=http://localhost:3000
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_HOST=db-e2e
+      - POSTGRES_PORT=5432
+      - POSTGRES_DATABASE=database
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+  db-dev:
+    container_name: db-dev
+    profiles:
+      - dev
     image: postgres
     restart: always
     environment:
@@ -33,7 +61,20 @@ services:
       POSTGRES_DB: database
     volumes:
       - postgres-db-volume:/var/lib/postgresql/data
-    ports:
-      - '5432:5432'
+      - ./postgres_scripts/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+  db-e2e:
+    container_name: db-e2e
+    profiles:
+      - e2e
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: database
+    volumes:
+      - postgres-db-volume-e2e:/var/lib/postgresql/data
+      - ./postgres_scripts/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
 volumes:
   postgres-db-volume:
+  postgres-db-volume-e2e:
