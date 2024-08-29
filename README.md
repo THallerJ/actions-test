@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a CRUD app that allows users to create guitar tablature (an alternative to sheet music for guitarists).
+[Guitar Tabs](https://guitar-tab-site-ig8bpsdhx-thallerjs-projects.vercel.app/) is a CRUD app that allows users to create guitar tablature (an alternative to sheet music for guitarists).
 
 ## Development
 
