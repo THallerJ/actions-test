@@ -1,1 +1,1 @@
-export const TAB_COUNT = 20;
+export const TAB_COUNT = 40;

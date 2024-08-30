@@ -1,6 +1,7 @@
 @use '@/common/variables.scss' as vars;
 
 $bg-color: hsl(0, 0%, 95%);
+$gtr_str_color: hsl(219, 7%, 48%);
 
 .note {
   height: 1.5em;
@@ -23,15 +24,16 @@ $bg-color: hsl(0, 0%, 95%);
   align-items: center;
   color: black;
   height: 100%;
-  padding: 0 5px 0 5px;
+  padding: 0 2px 0 2px;
   left: 50%;
   transform: translate(-50%, 0%);
   font-weight: 600;
+  font-size: 0.8rem;
 }
 
 .gtrStr {
   position: absolute;
-  background-color: vars.$light;
+  background-color: $gtr_str_color;
   height: 1px;
   top: 50%;
   bottom: 50%;
@@ -91,9 +93,13 @@ $bg-color: hsl(0, 0%, 95%);
   display: flex;
   flex-wrap: wrap;
   row-gap: 1.25em;
-  @include tabBorderRadius('20n');
+  @include tabBorderRadius('40n');
 
-  @include vars.md {
+  @include vars.xl {
+    @include tabBorderRadius('20n');
+  }
+
+  @include vars.smd {
     @include tabBorderRadius('10n');
   }
 }
@@ -101,11 +107,15 @@ $bg-color: hsl(0, 0%, 95%);
 .tab_col {
   display: flex;
   flex-direction: column;
-  flex-basis: 5%;
+  flex-basis: 10%;
   flex-shrink: 0;
   flex-grow: 0;
 
-  @include vars.md {
-    flex-basis: 10%;
+  @include vars.smdDown {
+    flex-basis: 5%;
+  }
+
+  @include vars.xlDown {
+    flex-basis: 2.5%;
   }
 }
