@@ -20,7 +20,7 @@ beforeEach(() => {
     artist: 'artist',
     username: 'user',
     is_private: true,
-    note_count: 40,
+    note_count: TAB_COUNT,
     gtr_string_count: 6,
     notes: { '1': { 1: '1', 3: '12', bar: false }, '12': { bar: true } },
   };
@@ -120,25 +120,28 @@ describe('tab reducer actions', () => {
     };
 
     tab = addStaff(tab);
-    expect(tab.note_count).toBe(40);
+    expect(tab.note_count).toBe(80);
     tab = addStaff(tab);
-    expect(tab.note_count).toBe(60);
+    expect(tab.note_count).toBe(120);
 
     tab = deleteStaff(tab);
+    expect(tab.note_count).toBe(80);
+    tab = deleteStaff(tab);
     expect(tab.note_count).toBe(40);
     tab = deleteStaff(tab);
-    expect(tab.note_count).toBe(20);
-    tab = deleteStaff(tab);
-    expect(tab.note_count).toBe(20);
+    expect(tab.note_count).toBe(40);
 
     tab = {
-      notes: { '39': { 3: '12' }, '20': { 0: '13' } },
+      notes: { '79': { 3: '12' }, '1': { 0: '13' } },
       gtr_string_count: 6,
       note_count: TAB_COUNT * 2,
     };
+    expect(tab.note_count).toBe(80);
+    expect(Object.keys(tab.notes).length).toBe(2);
 
     tab = deleteStaff(tab);
-    expect(tab.note_count).toBe(20);
-    expect(Object.keys(tab.notes).length).toBe(0);
+    expect(tab.note_count).toBe(40);
+    console.log(Object.keys(tab.notes).length);
+    expect(Object.keys(tab.notes).length).toBe(1);
   });
 });

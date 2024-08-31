@@ -42,13 +42,13 @@ test.describe('add and update notes', () => {
 test.describe('update staff', async () => {
   test('add staff', async ({ tabEditor }) => {
     await tabEditor.editor.addStaff();
-    await expect(tabEditor.editor.getNote(39, 0)).toBeVisible();
-    await expect(tabEditor.editor.getNote(40, 0)).not.toBeVisible();
+    await expect(tabEditor.editor.getNote(79, 0)).toBeVisible();
+    await expect(tabEditor.editor.getNote(80, 0)).not.toBeVisible();
 
     await tabEditor.editor.addStaff();
     await tabEditor.editor.addStaff();
-    await expect(tabEditor.editor.getNote(79, 0)).toBeVisible();
-    await expect(tabEditor.editor.getNote(80, 0)).not.toBeVisible();
+    await expect(tabEditor.editor.getNote(159, 0)).toBeVisible();
+    await expect(tabEditor.editor.getNote(160, 0)).not.toBeVisible();
   });
 
   test('delete staff', async ({ tabEditor }) => {
@@ -58,14 +58,14 @@ test.describe('update staff', async () => {
     await tabEditor.editor.deleteStaff();
     await tabEditor.editor.confirm();
 
-    await expect(tabEditor.editor.getNote(39, 0)).toBeVisible();
-    await expect(tabEditor.editor.getNote(40, 0)).not.toBeVisible();
+    await expect(tabEditor.editor.getNote(79, 0)).toBeVisible();
+    await expect(tabEditor.editor.getNote(80, 0)).not.toBeVisible();
 
     await tabEditor.editor.deleteStaff();
     await tabEditor.editor.confirm();
 
-    await expect(tabEditor.editor.getNote(19, 0)).toBeVisible();
-    await expect(tabEditor.editor.getNote(20, 0)).not.toBeVisible();
+    await expect(tabEditor.editor.getNote(39, 0)).toBeVisible();
+    await expect(tabEditor.editor.getNote(40, 0)).not.toBeVisible();
 
     await tabEditor.editor.deleteStaff();
     await expect(tabEditor.page.getByText('Yes')).not.toBeVisible();
@@ -75,13 +75,13 @@ test.describe('update staff', async () => {
     await tabEditor.editor.addStaff();
     await tabEditor.editor.addStaff();
 
-    await expect(tabEditor.editor.getNote(59, 0)).toBeVisible();
-    await expect(tabEditor.editor.getNote(60, 0)).not.toBeVisible();
+    await expect(tabEditor.editor.getNote(119, 0)).toBeVisible();
+    await expect(tabEditor.editor.getNote(120, 0)).not.toBeVisible();
 
     await tabEditor.editor.clear();
     await tabEditor.editor.confirm();
 
-    await expect(tabEditor.editor.getNote(19, 0)).toBeVisible();
-    await expect(tabEditor.editor.getNote(20, 0)).not.toBeVisible();
+    await expect(tabEditor.editor.getNote(39, 0)).toBeVisible();
+    await expect(tabEditor.editor.getNote(40, 0)).not.toBeVisible();
   });
 });
