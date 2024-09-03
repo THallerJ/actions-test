@@ -9,4 +9,12 @@ export class TabEditor extends PageNavDesktop {
     super(page, 'http://localhost:3000/tab_editor');
     this.editor = new EditTab(page);
   }
+
+  async clickTutorial() {
+    await this.page.getByRole('button', { name: 'Tutorial' }).click();
+  }
+
+  async closeTutorial() {
+    await this.page.getByText('Close').click();
+  }
 }

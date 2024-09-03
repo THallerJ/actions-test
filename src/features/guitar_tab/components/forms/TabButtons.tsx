@@ -5,12 +5,14 @@ import Link from 'next/link';
 import { ConditionalHandler, ConfirmModal } from '@/components';
 import { TAB_COUNT } from '../../common/constants';
 import { TabSelectableSchema } from '@/common/types.';
+import { QuestionIcon } from '@/assets';
+import TutorialModal from './TutorialModal';
 
 const TabButtons = () => {
   const { readonly } = useTabContext();
 
   return (
-    <div className={styles.btnFlex}>
+    <div className={styles.wrapper}>
       {!readonly ? <EditorButtons /> : <ViewerButtons />}
     </div>
   );
@@ -22,6 +24,7 @@ const EditorButtons = () => {
   const { tabDispatch, tab } = useTabContext();
   const [showDelete, setShowDelete] = useState(false);
   const [showReset, setShowReset] = useState(false);
+  const [showTutorial, setShowTutorial] = useState(false);
 
   const handleAddStaff = () => {
     tabDispatch({ type: 'ADD_STAFF' });
@@ -44,6 +47,8 @@ const EditorButtons = () => {
       setShowReset(true);
   };
 
+  const onClickTutorial = () => setShowTutorial(true);
+
   return (
     <>
       <button
@@ -55,19 +60,28 @@ const EditorButtons = () => {
       </button>
       <div className={styles.btnRight}>
         <button
-          aria-label="add staff"
-          className={styles.btn}
-          onClick={handleAddStaff}
+          className={styles.btnTutorial}
+          title="Tutorial"
+          onClick={onClickTutorial}
         >
-          Add Staff
+          <QuestionIcon />
         </button>
-        <button
-          aria-label="delete staff"
-          className={styles.btn}
-          onClick={onClickDelete}
-        >
-          Delete Staff
-        </button>
+        <div className={styles.btnStaff}>
+          <button
+            aria-label="add staff"
+            className={styles.btn}
+            onClick={handleAddStaff}
+          >
+            Add Staff
+          </button>
+          <button
+            aria-label="delete staff"
+            className={styles.btn}
+            onClick={onClickDelete}
+          >
+            Delete Staff
+          </button>
+        </div>
         <ConfirmModal
           show={showDelete}
           onClose={() => setShowDelete(false)}
@@ -82,6 +96,10 @@ const EditorButtons = () => {
         >
           <span>Are you sure you want to clear the tab?</span>
         </ConfirmModal>
+        <TutorialModal
+          show={showTutorial}
+          onClose={() => setShowTutorial(false)}
+        />
       </div>
     </>
   );

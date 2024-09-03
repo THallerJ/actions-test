@@ -54,6 +54,13 @@
   gap: 0.5rem;
 }
 
+.buttonsRight {
+  display: flex;
+  justify-content: space-between;
+  align-self: end;
+  gap: 0.5rem;
+}
+
 .button {
   width: 4rem;
   padding: 0.25rem;

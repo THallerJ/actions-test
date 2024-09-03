@@ -7,9 +7,20 @@ export class EditTab {
     this.page = page;
   }
 
-  async fillNote(note: number, str: number, fret: string) {
+  async fillNoteNoAction(note: number, str: number, fret: string) {
     await this.page.locator(`#note_${note}_str_${str}`).click();
     await this.page.locator(`#input_note_${note}_str_${str}`).fill(fret);
+    await this.page.keyboard.down('Enter');
+  }
+
+  async fillNote(note: number, str: number, fret: string) {
+    await this.fillNoteNoAction(note, str, fret);
+    await this.page.keyboard.down('Escape');
+  }
+
+  // used for filling an input field that is already focused
+  async fillNoteFocused(fret: string) {
+    await this.page.locator('*:focus').fill(fret);
     await this.page.keyboard.down('Enter');
   }
 

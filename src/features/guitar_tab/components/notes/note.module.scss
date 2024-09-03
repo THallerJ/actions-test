@@ -54,6 +54,7 @@ $gtr_str_color: hsl(219, 7%, 48%);
 .noteInput {
   position: absolute;
   display: flex;
+  font-family: Arial, Helvetica, sans-serif;
   align-items: center;
   outline: 1px solid black;
   top: 50%;
@@ -65,6 +66,15 @@ $gtr_str_color: hsl(219, 7%, 48%);
   text-align: center;
   border-radius: 0.25em;
   font-weight: 500;
+  -webkit-tap-highlight-color: transparent;
+
+  &::selection {
+    background-color: transparent;
+  }
+}
+
+.enterPressed {
+  font-weight: 700;
 }
 
 @mixin tabBorderRadius($num) {

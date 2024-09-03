@@ -2,10 +2,13 @@ import styles from './note.module.scss';
 import { useTabContext } from '../../stores/useTabContext';
 import NoteInput from './NoteInput';
 import { NoteProps } from '../../common/tab.type';
+import useNoteKeyDown from '../../hooks/useNoteKeyDown';
+import { generateNoteKey } from '../../common/util';
 
 const Note = ({ fret, note, str, bar }: NoteProps & { bar?: boolean }) => {
-  const noteKey = `${str}s${note}n`;
-  const { setActiveKey, setShowInput, readonly, activeKey } = useTabContext();
+  const noteKey = generateNoteKey(str, note);
+  const { setActiveKey, setShowInput, readonly, tab } = useTabContext();
+  const handleKeyDown = useNoteKeyDown(noteKey, setActiveKey, tab);
 
   const handleOnClick = () => {
     setActiveKey(noteKey);
@@ -18,6 +21,7 @@ const Note = ({ fret, note, str, bar }: NoteProps & { bar?: boolean }) => {
       onClick={handleOnClick}
       key={noteKey}
       id={`note_${note}_str_${str}`}
+      onKeyDown={handleKeyDown}
     >
       <span className={styles.gtrStr} />
       {bar ? <span className={styles.bar} /> : null}

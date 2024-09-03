@@ -1,0 +1,17 @@
+@use '@/common/variables.scss' as vars;
+
+.list {
+  display: flex;
+  color: vars.$text2;
+  text-align: start;
+}
+
+.listItem {
+  padding: 0.5rem;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  color: vars.$text2;
+}

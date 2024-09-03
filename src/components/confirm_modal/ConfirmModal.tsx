@@ -7,6 +7,9 @@ const ConfirmModal = ({
   show,
   onClose,
   onConfirm,
+  noText,
+  yesText,
+  alignRight,
 }: ConfirmModalProps) => {
   return (
     <ConditionalHandler condition={show}>
@@ -14,24 +17,29 @@ const ConfirmModal = ({
         <div className={styles.modal} onClick={onClose} />
         <div className={styles.dialogue}>
           <div className={styles.text}>{children}</div>
-          <div className={styles.buttons}>
+          <div
+            className={`${!alignRight ? styles.buttons : styles.buttonsRight}`}
+          >
             <button
               className={`${styles.button}`}
               aria-label="no"
               onClick={onClose}
             >
-              No
+              {noText ? noText : 'No'}
             </button>
-            <button
-              className={`${styles.button}`}
-              aria-label="yes"
-              onClick={() => {
-                onConfirm();
-                onClose();
-              }}
-            >
-              Yes
-            </button>
+
+            {onConfirm ? (
+              <button
+                className={`${styles.button}`}
+                aria-label="yes"
+                onClick={() => {
+                  onConfirm();
+                  onClose();
+                }}
+              >
+                {yesText ? yesText : 'yes'}
+              </button>
+            ) : null}
           </div>
         </div>
       </>
@@ -45,5 +53,8 @@ type ConfirmModalProps = {
   children: React.ReactNode;
   show: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm?: () => void;
+  noText?: string;
+  yesText?: string;
+  alignRight?: boolean;
 };
