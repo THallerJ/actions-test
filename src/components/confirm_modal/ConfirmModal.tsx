@@ -22,7 +22,7 @@ const ConfirmModal = ({
           >
             <button
               className={`${styles.button}`}
-              aria-label="no"
+              aria-label="No"
               onClick={onClose}
             >
               {noText ? noText : 'No'}
@@ -31,13 +31,13 @@ const ConfirmModal = ({
             {onConfirm ? (
               <button
                 className={`${styles.button}`}
-                aria-label="yes"
+                aria-label="Yes"
                 onClick={() => {
                   onConfirm();
                   onClose();
                 }}
               >
-                {yesText ? yesText : 'yes'}
+                {yesText ? yesText : 'Yes'}
               </button>
             ) : null}
           </div>

@@ -59,7 +59,7 @@ $gtr_str_color: hsl(219, 7%, 48%);
   outline: 1px solid black;
   top: 50%;
   transform: translateY(-50%);
-  width: 90%;
+  width: calc(100% - 5px);
   left: 0;
   right: 0;
   border: none;
