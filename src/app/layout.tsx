@@ -12,8 +12,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Guitar Tabs',
-  description: 'A website for creating and viewing guitar tablature.',
+  title: 'Tab Machine',
+  description: 'A website for creating and sharing guitar tablature.',
 };
 
 export default function RootLayout({

@@ -1,8 +1,8 @@
-# Guitar Tabs
+# Tab Machine
 
 ## Description
 
-[Guitar Tabs](https://guitar-tab-site.vercel.app/) is a CRUD app that allows users to create guitar tablature (an alternative to sheet music for guitarists).
+[Tab Machine](https://tab-machine.vercel.app) is a CRUD app that allows users to create guitar tablature (an alternative to sheet music for guitarists).
 
 ## Development
 

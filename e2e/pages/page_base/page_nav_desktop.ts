@@ -19,7 +19,7 @@ export class PageNavDesktop extends PageBase {
   }
 
   async clickLogo() {
-    await this.page.getByRole('link', { name: 'Guitar Tabs' }).first().click();
+    await this.page.getByRole('link', { name: 'Tab Machine' }).first().click();
   }
 
   async clickLogin() {
