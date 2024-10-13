@@ -7,6 +7,7 @@ import { TAB_COUNT } from '../../common/constants';
 import { TabSelectableSchema } from '@/common/types.';
 import { QuestionIcon } from '@/assets';
 import TutorialModal from './TutorialModal';
+import { getUrlSlug } from '@/common/utils';
 
 const TabButtons = () => {
   const { readonly } = useTabContext();
@@ -108,11 +109,14 @@ const EditorButtons = () => {
 const ViewerButtons = () => {
   const { editAccess, id, tab } = useTabContext();
   const result = TabSelectableSchema.safeParse(tab);
+  const url = result.success
+    ? getUrlSlug(result.data.id, result.data.artist, result.data.title)
+    : id;
 
   return (
     <div className={styles.viewerButtonsFlex}>
       <ConditionalHandler condition={editAccess}>
-        <Link prefetch={false} href={`/tab_editor/${id}`}>
+        <Link prefetch={false} href={`/tab_editor/${url}`}>
           <button aria-label="edit" className={styles.btnEdit}>
             Edit
           </button>

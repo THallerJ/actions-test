@@ -63,9 +63,11 @@ export const TabArrayRespSchema = z.object({
 });
 
 export type TabArrayResp = z.infer<typeof TabArrayRespSchema>;
-/*
-export const SaveTabRespSchema = z.object({
-  code: z.literal(200).or(z.literal(500)),
+
+export const RecentTabInfoRespSchema = z.object({
+  id: z.number(),
+  artist: z.string(),
+  title: z.string(),
 });
 
-export type SaveTabResp = z.infer<typeof SaveTabRespSchema>; */
+export type RecentTabInfoResp = z.infer<typeof RecentTabInfoRespSchema>;

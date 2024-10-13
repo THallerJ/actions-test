@@ -128,3 +128,12 @@ export const deleteTabDb = async (id: string, user: string) => {
     .where('id', '=', Number(id))
     .executeTakeFirst();
 };
+
+export const getRecentTabInfo = async (user: string) => {
+  return await db
+    .selectFrom('tabs')
+    .select(['id', 'artist', 'title'])
+    .where('username', '=', user)
+    .orderBy('created_at desc')
+    .executeTakeFirst();
+};

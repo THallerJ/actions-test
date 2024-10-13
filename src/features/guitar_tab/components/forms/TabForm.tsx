@@ -2,21 +2,34 @@ import styles from './styles/tab_form.module.scss';
 import { saveTab } from '@/actions';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { useTabContext } from '../../stores/useTabContext';
-import { TabSelectableSchema } from '@/common/types.';
+import { TabSelectableSchema, RecentTabInfoRespSchema } from '@/common/types.';
 import { ConditionalHandler } from '@/components';
 import FormPending from './FormPending';
 import { useAlertContext } from '@/stores';
+import { useQuery } from '@tanstack/react-query';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { getUrlSlug } from '@/common/utils';
 
 const TabForm = () => {
   const { user } = useUser();
-  const { tab, hadIntitialTab } = useTabContext();
+  const { tab, hadIntitialTab, isNewTab } = useTabContext();
   const { notifyAlert } = useAlertContext();
+  const [doRedirect, setDoRedirect] = useState(false);
   const result = TabSelectableSchema.safeParse(tab);
+  const router = useRouter();
+  const { data } = useQuery({
+    queryKey: [doRedirect],
+    queryFn: () => fetchTab(doRedirect),
+  });
 
   const saveTabClientAction = async (formData: FormData) => {
     try {
       await saveTab(formData);
       notifyAlert({ isError: false, message: 'Tab saved!' });
+      if (isNewTab) {
+        setDoRedirect(true);
+      }
     } catch (e: unknown) {
       notifyAlert({
         isError: true,
@@ -24,6 +37,13 @@ const TabForm = () => {
       });
     }
   };
+
+  useEffect(() => {
+    if (data && doRedirect)
+      router.push(
+        `/tab_editor/${getUrlSlug(data.id, data.artist, data.title)}`
+      );
+  }, [data, router, doRedirect]);
 
   return (
     <>
@@ -105,6 +125,19 @@ const TabForm = () => {
       </form>
     </>
   );
+};
+
+const fetchTab = async (doFetch: boolean) => {
+  if (doFetch) {
+    const resp = await fetch(`/api/recent_tab_info`);
+    const json = await resp.json();
+
+    const result = RecentTabInfoRespSchema.safeParse(json);
+
+    if (result.success) return result.data;
+  }
+
+  return null;
 };
 
 export default TabForm;

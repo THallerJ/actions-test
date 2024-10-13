@@ -12,9 +12,11 @@ type TabContextProps = {
   tabDispatch: React.Dispatch<ReducerAction>;
   readonly: boolean;
   hadIntitialTab: boolean;
+  setHadInitialTab: React.Dispatch<React.SetStateAction<boolean>>;
   editAccess: boolean;
   id: string | null;
   isNewTab: boolean;
+  setIsNewTab: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const TabContext = createContext<TabContextProps | null>(null);
@@ -36,6 +38,10 @@ export const TabContextProvider = ({
 }: TabContextProviderProps) => {
   const [activeKey, setActiveKey] = useState<string | null>(null);
   const [showInput, setShowInput] = useState(false);
+  const [isNewTab, setIsNewTab] = useState(id === undefined);
+  const [hadi, setHadInitialTab] = useState(
+    initialTab !== undefined && initialTab !== null
+  );
   const [tab, tabDispatch] = useTabReducer(initialTab);
 
   const value = {
@@ -46,8 +52,10 @@ export const TabContextProvider = ({
     setShowInput,
     tabDispatch,
     id: id ? id : null,
-    isNewTab: id === undefined,
+    isNewTab,
+    setIsNewTab,
     hadIntitialTab: initialTab !== undefined && initialTab !== null,
+    setHadInitialTab,
     readonly: readonly ? readonly : false,
     editAccess: editAccess ? editAccess : false,
   };

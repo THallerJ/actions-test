@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { ConditionalHandler, ConfirmModal } from '@/components';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { useQueryContext } from '../stores/useQueryContext';
+import { getUrlSlug } from '@/common/utils';
 
 const TabItem = ({ item }: TabItemProps) => {
   const { user } = useUser();
@@ -17,7 +18,11 @@ const TabItem = ({ item }: TabItemProps) => {
       <Link
         prefetch={false}
         href={{
-          pathname: `/tab_viewer/` + item.id,
+          pathname: `/tab_viewer/${getUrlSlug(
+            item.id,
+            item.artist,
+            item.title
+          )}`,
         }}
         className={styles.infoCol}
       >

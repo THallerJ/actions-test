@@ -7,7 +7,7 @@ import styles from './guitar_tab.module.scss';
 import { ConditionalHandler, Spinner, Message } from '@/components';
 
 const GuitarTabChild = ({ isLoading, isError }: GuitarTabChildProps) => {
-  const { readonly, hadIntitialTab, isNewTab } = useTabContext();
+  const { readonly, hadIntitialTab, isNewTab, tab } = useTabContext();
 
   return (
     <div className={styles.innerWrap}>

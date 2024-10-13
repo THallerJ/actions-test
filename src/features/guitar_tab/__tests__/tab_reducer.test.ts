@@ -141,7 +141,6 @@ describe('tab reducer actions', () => {
 
     tab = deleteStaff(tab);
     expect(tab.note_count).toBe(40);
-    console.log(Object.keys(tab.notes).length);
     expect(Object.keys(tab.notes).length).toBe(1);
   });
 });
