@@ -1,3 +1,4 @@
+import { Page } from '@playwright/test';
 import { test, expect } from '../fixtures';
 import { Home } from '../pages';
 import { nickname1 } from '../users';
@@ -15,6 +16,7 @@ test.describe('create, view, edit, and delete tabs', () => {
     await tabEditor.editor.submitForm();
 
     await expect(tabEditor.page.getByText('Tab saved!')).toBeVisible();
+    await saveTabRedirect(tabEditor.page);
 
     await tabEditor.clickViewTabs();
     const home = new Home(tabEditor.page);
@@ -54,6 +56,7 @@ test.describe('create, view, edit, and delete tabs', () => {
     await tabEditorMobile.editor.submitForm();
 
     await expect(tabEditorMobile.page.getByText('Tab saved!')).toBeVisible();
+    await saveTabRedirect(tabEditorMobile.page);
 
     await tabEditorMobile.clickMenu();
     await tabEditorMobile.clickViewTabs();
@@ -83,3 +86,9 @@ test.describe('create, view, edit, and delete tabs', () => {
     await expect(homeMobile.page.getByText(artist)).not.toBeVisible();
   });
 });
+
+const saveTabRedirect = async (page: Page) => {
+  await expect(page).toHaveURL(
+    new RegExp('http://localhost:3000/tab_editor/[0-9+]')
+  );
+};
