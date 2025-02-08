@@ -19,6 +19,8 @@ export default defineConfig({
   reporter: 'html',
   use: {
     trace: 'on-first-retry',
+    actionTimeout: 90 * 1000,
+    navigationTimeout: 90 * 1000,
   },
   projects: [
     {
