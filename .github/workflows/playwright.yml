@@ -22,7 +22,8 @@ jobs:
           node-version: lts/*
       - run: pnpm install --frozen-lockfile
       - run: npx playwright install --with-deps
-      - run: docker compose -d --profile e2e --wait up &
+      - run: docker compose up --detach --profile e2e --wait &
+      - run: sleep 180s
       - run: pnpm e2e
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
