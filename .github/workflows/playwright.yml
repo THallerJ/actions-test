@@ -22,7 +22,5 @@ jobs:
           node-version: lts/*
       - run: pnpm install --frozen-lockfile
       - run: npx playwright install --with-deps
-      - run: docker compose build
       - run: docker compose --profile e2e up &
-      - run: npx wait-on http://localhost:3000
-      - run: npx playwright test
+      - run: npx wait-on http://localhost:3000 && npx playwright test
