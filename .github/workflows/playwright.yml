@@ -23,7 +23,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: npx playwright install --with-deps
       - run: pnpm docker e2e &
-      - run: npx wait-on http://localhost:3000 && pnpm e2e
+      - run: pnpm e2e
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
