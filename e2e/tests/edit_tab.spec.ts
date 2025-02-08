@@ -11,7 +11,7 @@ test.describe('add and update notes', () => {
 
   test('update notes', async ({ tabEditor }) => {
     await tabEditor.editor.fillNote(0, 0, '14');
-    await expect(tabEditor.editor.getNote(0, 0).getByText('13')).toBeVisible();
+    await expect(tabEditor.editor.getNote(0, 0).getByText('14')).toBeVisible();
 
     await tabEditor.editor.fillNote(0, 0, '2');
     await expect(tabEditor.editor.getNote(0, 0).getByText('2')).toBeVisible();
