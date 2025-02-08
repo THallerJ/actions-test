@@ -16,7 +16,7 @@ beforeEach(() => {
 describe('auth manager', () => {
   it('no user', () => {
     const { getByText, queryByText } = render(<MockAuth />);
-    expect(getByText('Logi')).toBeInTheDocument();
+    expect(getByText('Login')).toBeInTheDocument();
     expect(getByText('Sign Up')).toBeInTheDocument();
     expect(queryByText('Hi')).not.toBeInTheDocument();
     expect(queryByText('Logout')).not.toBeInTheDocument();
