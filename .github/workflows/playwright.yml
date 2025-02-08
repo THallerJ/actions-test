@@ -23,5 +23,5 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: npx playwright install --with-deps
       - run: docker compose build
-      - run: docker compose run setup
+      - run: docker compose --profile e2e up
       - run: npx playwright test
