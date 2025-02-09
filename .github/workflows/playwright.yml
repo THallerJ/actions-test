@@ -12,20 +12,12 @@ jobs:
         working-directory: ./
     timeout-minutes: 60
     steps:
-      - name: pnpm-setup
-        with:
-          version: latest
-        uses: pnpm/action-setup@v4
+      - run: npm install -g pnpm
 
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-
-      - run: npx playwright install --with-deps
+      #- run: npx playwright install --with-deps
 
       - name: Install Deps
         run: pnpm install
