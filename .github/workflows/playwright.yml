@@ -25,6 +25,8 @@ jobs:
         with:
           node-version: lts/*
 
+      - run: npx playwright install --with-deps
+
       - name: Install Deps
         run: pnpm install
 
