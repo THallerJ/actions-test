@@ -22,4 +22,6 @@ jobs:
       - name: Install Deps
         run: pnpm install
 
+      - run: docker-compose exec playwright-test pnpm install --save-dev @playwright/test
+
       - run: docker compose up playwright-test
