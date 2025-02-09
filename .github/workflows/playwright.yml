@@ -21,4 +21,5 @@ jobs:
         with:
           node-version: lts/*
       - run: pnpm install --frozen-lockfile
+      - run: npx playwright install --with-deps
       - run: pnpm docker-test
