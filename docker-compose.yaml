@@ -26,6 +26,9 @@ services:
       - /app/.next
   client-e2e:
     image: hallert60/guitar-tab-site-client-e2e
+    healthcheck:
+      test: ['CMD-SHELL', 'wget -O /dev/null http://localhost:3000 || exit 1']
+      timeout: 10s
     profiles:
       - e2e
     container_name: client-e2e
@@ -75,6 +78,21 @@ services:
     volumes:
       - postgres-db-volume-e2e:/var/lib/postgresql/data
       - ./postgres_scripts/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+  playwright-test:
+    image: mcr.microsoft.com/playwright:v1.46.1-noble
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    container_name: playwright-test
+    working_dir: /app
+    profiles:
+      - e2e
+    command: npx playwright test --workers 1
+    network_mode: 'host'
+    depends_on:
+      client-e2e:
+        condition: service_healthy
 volumes:
   postgres-db-volume:
   postgres-db-volume-e2e:
