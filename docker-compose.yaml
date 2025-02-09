@@ -86,7 +86,9 @@ services:
       - /app/.next
     container_name: playwright-test
     working_dir: /app
-    command: npx playwright test --workers 1
+    profiles:
+      - e2e
+    command: npm install --save-dev @playwright/test@1.46.1 && npx playwright test --workers 1
     network_mode: 'host'
     depends_on:
       client-e2e:
