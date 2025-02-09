@@ -88,7 +88,7 @@ services:
     working_dir: /app
     profiles:
       - e2e
-    command: npx playwright test --workers 1
+    command: npm install --save-dev @playwright/test@1.46.1 &&npx playwright test --workers 1
     network_mode: 'host'
     depends_on:
       client-e2e:
