@@ -79,7 +79,7 @@ services:
       - postgres-db-volume-e2e:/var/lib/postgresql/data
       - ./postgres_scripts/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
   playwright-test:
-    image: mcr.microsoft.com/playwright:v1.46.1-noble
+    image: ./docker/playwright
     volumes:
       - .:/app
       - /app/node_modules
@@ -88,7 +88,6 @@ services:
     working_dir: /app
     profiles:
       - e2e
-    command: npx playwright test --workers 1
     network_mode: 'host'
     depends_on:
       client-e2e:
