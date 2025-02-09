@@ -79,7 +79,7 @@ services:
       - postgres-db-volume-e2e:/var/lib/postgresql/data
       - ./postgres_scripts/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
   playwright-test:
-    image: ./docker/playwright
+    image: ./docker/playwright/Dockerfile
     volumes:
       - .:/app
       - /app/node_modules
