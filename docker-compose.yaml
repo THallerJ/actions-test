@@ -84,7 +84,7 @@ services:
       - ./postgres_scripts/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
 
   playwright-test:
-    image: hallert60/guitar-tab-e2e
+    image: hallert60/playwright-tab
     expose:
       - 9009:9009
     volumes:
