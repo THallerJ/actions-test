@@ -1,2 +1,2 @@
-docker exec -it db-e2e psql database -U postgres -c "truncate table tabs;"
+docker exec -it db-dev psql database -U postgres -c "truncate table tabs;"
 exit

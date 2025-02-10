@@ -24,6 +24,7 @@ services:
       - .:/app
       - /app/node_modules
       - /app/.next
+
   client-e2e:
     image: hallert60/guitar-tab-site-client-e2e
     healthcheck:
@@ -52,6 +53,7 @@ services:
       - .:/app
       - /app/node_modules
       - /app/.next
+
   db-dev:
     container_name: db-dev
     profiles:
@@ -65,34 +67,39 @@ services:
     volumes:
       - postgres-db-volume:/var/lib/postgresql/data
       - ./postgres_scripts/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+
   db-e2e:
     container_name: db-e2e
     profiles:
       - e2e
     image: postgres
+    expose:
+      - 5432:5432
     restart: always
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: database
     volumes:
-      - postgres-db-volume-e2e:/var/lib/postgresql/data
       - ./postgres_scripts/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+
   playwright-test:
-    image: mcr.microsoft.com/playwright:v1.46.1-noble
+    image: hallert60/guitar-tab-e2e
+    expose:
+      - 9009:9009
     volumes:
       - .:/app
       - /app/node_modules
       - /app/.next
+      - ./playwright-report:/app/playwright-report
     container_name: playwright-test
-    working_dir: /app
+    network_mode: host
     profiles:
       - e2e
-    command: npx playwright test --workers 1
-    network_mode: 'host'
+    command: npx playwright test --workers 1 --trace on
     depends_on:
       client-e2e:
         condition: service_healthy
+
 volumes:
   postgres-db-volume:
-  postgres-db-volume-e2e:
