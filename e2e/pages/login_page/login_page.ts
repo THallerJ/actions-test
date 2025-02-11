@@ -15,7 +15,6 @@ export class Login extends PageBase {
   }
 
   async fillLoginForm(username: string, password: string) {
-    console.log(username);
     await this.useUsernameEmail();
     await this.page.getByPlaceholder('username/email').fill(username);
     await this.page.getByPlaceholder('your password').fill(password);
