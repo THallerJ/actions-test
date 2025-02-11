@@ -1,6 +1,6 @@
 import { test, expect } from '../fixtures';
 import { nickname1 } from '../users';
-/*
+
 test.describe('handle multiple users', () => {
   test('view and edit tab created by other user', async ({
     tabEditor,
@@ -82,4 +82,3 @@ test.describe('handle multiple users', () => {
     await myTabs.panel.deleteTab(song);
   });
 });
-*/
