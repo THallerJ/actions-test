@@ -21,7 +21,7 @@ services:
       - POSTGRES_PORT=5432
       - POSTGRES_DATABASE=database
     volumes:
-      - .:/app
+      - app-volume:/app
       - /app/node_modules
       - /app/.next
 
@@ -50,7 +50,7 @@ services:
       - POSTGRES_PORT=5432
       - POSTGRES_DATABASE=database
     volumes:
-      - .:/app
+      - app-volume:/app
       - /app/node_modules
       - /app/.next
 
@@ -88,7 +88,7 @@ services:
     expose:
       - 9009:9009
     volumes:
-      - .:/app
+      - app-volume:/app
       - /app/node_modules
       - /app/.next
       - ./playwright-report:/app/playwright-report
@@ -97,10 +97,10 @@ services:
     profiles:
       - e2e
     command: npx playwright test --workers 1 --trace on
-    # command: sleep infinity
-    #depends_on:
-    # client-e2e:
-    #  condition: service_healthy
+    depends_on:
+      client-e2e:
+        condition: service_healthy
 
 volumes:
   postgres-db-volume:
+  app-volume:

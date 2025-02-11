@@ -16,11 +16,9 @@ jobs:
 
       - name: Checkout Repo
         uses: actions/checkout@v4
-      #- run: npx playwright install --with-deps
 
       - name: Install Deps
         run: pnpm install --frozen-lockfile
-      - run: ls
 
       - run: pnpm run docker-test
 
