@@ -48,4 +48,6 @@ next-env.d.ts
 /e2e/.auth/
 /e2e/storage/
 
+.pnpm-store/
+
 .secrets

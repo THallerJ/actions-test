@@ -97,9 +97,10 @@ services:
     profiles:
       - e2e
     command: npx playwright test --workers 1 --trace on
-    depends_on:
-      client-e2e:
-        condition: service_healthy
+    # command: sleep infinity
+    #depends_on:
+    # client-e2e:
+    #  condition: service_healthy
 
 volumes:
   postgres-db-volume:
