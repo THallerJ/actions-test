@@ -23,7 +23,7 @@ test.beforeAll(() => {
 test('setup', async ({ homeNoAuth }) => {
   await expect(
     homeNoAuth.page.getByText(
-      'There are no tabs here. Click here to create a tab.'
+      'There are no tabs here. Click here to create a tabasda.'
     )
   ).toBeVisible();
 });
