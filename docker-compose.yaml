@@ -85,8 +85,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: database
     volumes:
-      - app-volume:/app
-      - ./postgres_scripts/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      # - app-volume:/app
+      - ./postgres_scripts/create_tables.sql:/docker-entrypoint-initdb.d/create-tables.sql
 
   playwright-test:
     image: hallert60/playwright-tab
@@ -101,8 +101,8 @@ services:
     network_mode: host
     profiles:
       - e2e
-    #  command: npx playwright test --workers 1 --trace on
-    command: sleep infinity
+    command: npx playwright test --workers 1 --trace on
+    # ncommand: sleep infinity
     depends_on:
       client-e2e:
         condition: service_healthy
