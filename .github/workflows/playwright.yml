@@ -19,8 +19,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - run: ls
-
       - name: Install Deps
         run: pnpm install --frozen-lockfile
 
@@ -29,6 +27,7 @@ jobs:
 
       - name: Upload Playwright Report
         uses: actions/upload-artifact@v4
+        if: ${{ cancelled() }}
         with:
           name: playwright-report
           path: playwright-report/
