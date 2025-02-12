@@ -32,7 +32,7 @@ test.describe('links navigate to correct page', () => {
     await homeMobile.clickMenu();
     await homeMobile.clickMyTabs();
     await homeMobile.page.waitForURL('http://localhost:3000/my_tabs');
-    expect(homeMobile.page.url()).toBe('http://localhost:3000/jsalkdaslk');
+    expect(homeMobile.page.url()).toBe('http://localhost:3000/my_tabs');
   });
 
   test('navigate to all tabs', async ({ myTabs }) => {
