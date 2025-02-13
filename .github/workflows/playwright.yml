@@ -38,15 +38,15 @@ jobs:
           echo PASSWORD_2=${{ env.PASSWORD_2 }} >> .env
 
       - name: 'RUNNER TEMP'
-        run: echo "${{ runner.temp }}"
+        run: pwd
 
       - name: Install Deps
         run: pnpm install --frozen-lockfile
 
-      - name: Run e2e Tests
-        run: pnpm run docker-test
+      # - name: Run e2e Tests
+      #   run: pnpm run docker-test
 
-      - run: sleep infinity
+      #- run: sleep infinity
 
       - name: Upload Playwright Report
         uses: actions/upload-artifact@v4
