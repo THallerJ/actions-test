@@ -37,19 +37,15 @@ jobs:
           echo EMAIL_2=${{ env.EMAIL_2 }} >> .env
           echo PASSWORD_2=${{ env.PASSWORD_2 }} >> .env
 
-      - name: 'RUNNER TEMP'
-        run: pwd
-
       - name: Install Deps
         run: pnpm install --frozen-lockfile
 
       - name: Run e2e Tests
         run: pnpm run docker-test
 
-      #- run: sleep infinity
-
       - name: Upload Playwright Report
         uses: actions/upload-artifact@v4
+        if: ${{ cancelled() }}
         with:
           name: playwright-report
           path: playwright-report/

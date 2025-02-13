@@ -13,7 +13,7 @@
     "e2e-report": "pnpm exec playwright show-report",
     "docker-dev": "docker compose --profile dev up",
     "docker-e2e": "docker compose --profile e2e up",
-    "docker-test": "docker compose up playwright-test"
+    "docker-test": "docker compose up --exit-code-from playwright-test playwright-test"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.6.0",
