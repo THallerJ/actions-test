@@ -83,7 +83,7 @@ The end-to-end tests should be run against an instance of the app running in doc
 
 `pnpm docker-e2e`
 
-This will run the client-e2e and db-e2e docker containers (The app can be accessed http://localhost:3000).
+This will run the client-e2e:3000 and db-e2e docker containers (The app can be accessed http://client-e2e:3000:3000).
 
 Then, in another terminal, run the tests by entering the command:
 

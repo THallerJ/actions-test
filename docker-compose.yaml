@@ -30,7 +30,8 @@ services:
   client-e2e:
     image: hallert60/tab-machine-client
     healthcheck:
-      test: ['CMD-SHELL', 'wget -O /dev/null http://localhost:3000 || exit 1']
+      test:
+        ['CMD-SHELL', 'wget -O /dev/null http://localhost:3000:3000 || exit 1']
       timeout: 10s
     profiles:
       - e2e
@@ -43,6 +44,8 @@ services:
       context: .
     ports:
       - 3000:3000
+    expose:
+      - 3000
     environment:
       - WATCHPACK_POLLING=true
       - AUTH0_SECRET=auth0secret
@@ -85,15 +88,18 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: database
     volumes:
-      # - app-volume:/app
-      - ./postgres_scripts/create_tables.sql:/docker-entrypoint-initdb.d/create-tables.sql
+      #  - app-volume:/app
+      - /c/Users/halle/Documents/web/actions-test/:/app
+      #- /mnt/c/Users/halle/Documents/web/actions-test/postgres-db-volume:/var/lib/postgresql/data
+      #- ./postgres_scripts/create_tables.sql:/docker-entrypoint-initdb.d/create-tables.sql
+      - /c/Users/halle/Documents/web/actions-test/postgres_scripts/create_tables.sql:/docker-entrypoint-initdb.d/create-tables.sql
 
   playwright-test:
     image: hallert60/playwright-tab
     env_file:
       - .env
     volumes:
-      - app-volume:/app
+      - /c/Users/halle/Documents/web/actions-test/:/app
       - /app/node_modules
       - /app/.next
       - ./playwright-report:/app/playwright-report
@@ -102,7 +108,7 @@ services:
     profiles:
       - e2e
     command: npx playwright test --workers 1 --trace on
-    # ncommand: sleep infinity
+    #command: sleep infinity
     depends_on:
       client-e2e:
         condition: service_healthy
