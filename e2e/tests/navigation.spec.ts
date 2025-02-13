@@ -5,8 +5,8 @@ test.describe('links navigate to correct page', () => {
     test.slow();
 
     await home.clickCreateTab();
-    await home.page.waitForURL('http://client-e2e:3000:3000/tab_editor');
-    expect(home.page.url()).toBe('http://client-e2e:3000:3000/tab_editor');
+    await home.page.waitForURL('http://localhost:3000/tab_editor');
+    expect(home.page.url()).toBe('http://localhost:3000/tab_editor');
   });
 
   test('navigate to tab editor on mobile', async ({ homeMobile }) => {
@@ -14,18 +14,16 @@ test.describe('links navigate to correct page', () => {
 
     await homeMobile.clickMenu();
     await homeMobile.clickCreateTab();
-    await homeMobile.page.waitForURL('http://client-e2e:3000:3000/tab_editor');
-    expect(homeMobile.page.url()).toBe(
-      'http://client-e2e:3000:3000/tab_editor'
-    );
+    await homeMobile.page.waitForURL('http://localhost:3000/tab_editor');
+    expect(homeMobile.page.url()).toBe('http://localhost:3000/tab_editor');
   });
 
   test('navigate to my tabs', async ({ home }) => {
     test.slow();
 
     await home.clickMyTabs();
-    await home.page.waitForURL('http://client-e2e:3000:3000/my_tabs');
-    expect(home.page.url()).toBe('http://client-e2e:3000:3000/my_tabs');
+    await home.page.waitForURL('http://localhost:3000/my_tabs');
+    expect(home.page.url()).toBe('http://localhost:3000/my_tabs');
   });
 
   test('navigate to my tabs on mobile', async ({ homeMobile }) => {
@@ -33,16 +31,16 @@ test.describe('links navigate to correct page', () => {
 
     await homeMobile.clickMenu();
     await homeMobile.clickMyTabs();
-    await homeMobile.page.waitForURL('http://client-e2e:3000:3000/my_tabs');
-    expect(homeMobile.page.url()).toBe('http://client-e2e:3000:3000/my_tabs');
+    await homeMobile.page.waitForURL('http://localhost:3000/my_tabs');
+    expect(homeMobile.page.url()).toBe('http://localhost:3000/my_tabs');
   });
 
   test('navigate to all tabs', async ({ myTabs }) => {
     test.slow();
 
     await myTabs.clickViewTabs();
-    await myTabs.page.waitForURL('http://client-e2e:3000:3000/my_tabs');
-    expect(myTabs.page.url()).toBe('http://client-e2e:3000:3000/my_tabs');
+    await myTabs.page.waitForURL('http://localhost:3000/my_tabs');
+    expect(myTabs.page.url()).toBe('http://localhost:3000/my_tabs');
   });
 
   test('navigate to all tabs on mobile', async ({ myTabsMobile }) => {
@@ -50,8 +48,8 @@ test.describe('links navigate to correct page', () => {
 
     await myTabsMobile.clickMenu();
     await myTabsMobile.clickViewTabs();
-    await myTabsMobile.page.waitForURL('http://client-e2e:3000:3000/my_tabs');
-    expect(myTabsMobile.page.url()).toBe('http://client-e2e:3000:3000/my_tabs');
+    await myTabsMobile.page.waitForURL('http://localhost:3000/my_tabs');
+    expect(myTabsMobile.page.url()).toBe('http://localhost:3000/my_tabs');
   });
 
   test('navigate home page', async ({ myTabs }) => {

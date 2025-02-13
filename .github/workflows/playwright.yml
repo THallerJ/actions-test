@@ -35,8 +35,10 @@ jobs:
           echo EMAIL_1=${{ env.EMAIL_1 }} >> .env
           echo PASSWORD_1=${{ env.PASSWORD_1 }} >> .env
           echo EMAIL_2=${{ env.EMAIL_2 }} >> .env
-          echo PASSWORD_2:=${{ env.PASSWORD_2 }} >> .env
-          echo RUNNER_TEMP:=${{ runner.temp }} >> .env
+          echo PASSWORD_2=${{ env.PASSWORD_2 }} >> .env
+
+      - name: 'RUNNER TEMP'
+        run: echo "${{ runner.temp }}"
 
       - name: Install Deps
         run: pnpm install --frozen-lockfile

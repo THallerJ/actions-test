@@ -30,8 +30,7 @@ services:
   client-e2e:
     image: hallert60/tab-machine-client
     healthcheck:
-      test:
-        ['CMD-SHELL', 'wget -O /dev/null http://localhost:3000:3000 || exit 1']
+      test: ['CMD-SHELL', 'wget -O /dev/null http://localhost:3000 || exit 1']
       timeout: 10s
     profiles:
       - e2e
@@ -108,7 +107,6 @@ services:
     profiles:
       - e2e
     command: npx playwright test --workers 1 --trace on
-    #command: sleep infinity
     depends_on:
       client-e2e:
         condition: service_healthy
