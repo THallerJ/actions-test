@@ -13,6 +13,7 @@ env:
   PASSWORD_1: ${{secrets.PASSWORD_1}}
   EMAIL_2: ${{secrets.EMAIL_2}}
   PASSWORD_2: ${{secrets.PASSWORD_2}}
+  APP_DIR: ${{secrets.APP_DIR}}
 
 jobs:
   e2e:
@@ -36,6 +37,7 @@ jobs:
           echo PASSWORD_1=${{ env.PASSWORD_1 }} >> .env
           echo EMAIL_2=${{ env.EMAIL_2 }} >> .env
           echo PASSWORD_2=${{ env.PASSWORD_2 }} >> .env
+          echo APP_DIR=${{ env.APP_DIR }} >> .env
 
       - name: Install Deps
         run: pnpm install --frozen-lockfile
