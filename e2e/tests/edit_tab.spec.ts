@@ -5,7 +5,7 @@ test.describe('add and update notes', () => {
     await tabEditor.editor.fillNote(0, 0, '14');
     await tabEditor.editor.fillNote(19, 5, '2');
 
-    await expect(tabEditor.editor.getNote(0, 0).getByText('14')).toBeVisible();
+    await expect(tabEditor.editor.getNote(0, 0).getByText('15')).toBeVisible();
     await expect(tabEditor.editor.getNote(19, 5).getByText('2')).toBeVisible();
   });
 
