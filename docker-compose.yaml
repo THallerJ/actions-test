@@ -1,8 +1,6 @@
 services:
   client-dev:
     image: hallert60/tab-machine-client
-    profiles:
-      - dev
     container_name: client-dev
     depends_on:
       - db-dev
@@ -32,8 +30,6 @@ services:
     healthcheck:
       test: ['CMD-SHELL', 'wget -O /dev/null http://localhost:3000 || exit 1']
       timeout: 10s
-    profiles:
-      - e2e
     env_file:
       - .env
     container_name: client-e2e
@@ -62,8 +58,6 @@ services:
 
   db-dev:
     container_name: db-dev
-    profiles:
-      - dev
     image: postgres
     restart: always
     environment:
@@ -76,8 +70,6 @@ services:
 
   db-e2e:
     container_name: db-e2e
-    profiles:
-      - e2e
     image: postgres
     expose:
       - 5432:5432
@@ -87,11 +79,10 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: database
     volumes:
-      #  - app-volume:/app
       - /home/runner/work/actions-test/actions-test:/app
-      #- /mnt/c/Users/halle/Documents/web/actions-test/postgres-db-volume:/var/lib/postgresql/data
-      #- ./postgres_scripts/create_tables.sql:/docker-entrypoint-initdb.d/create-tables.sql
+      #- /c/Users/halle/Documents/web/actions-test:/app
       - /home/runner/work/actions-test/actions-test/postgres_scripts/create_tables.sql:/docker-entrypoint-initdb.d/create-tables.sql
+      #- /c/Users/halle/Documents/web/actions-test/postgres_scripts/create_tables.sql:/docker-entrypoint-initdb.d/create-tables.sql
 
   playwright-test:
     image: hallert60/playwright-tab
@@ -99,13 +90,10 @@ services:
       - .env
     volumes:
       - /home/runner/work/actions-test/actions-test/:/app
-      - /app/node_modules
-      - /app/.next
+      #- /c/Users/halle/Documents/web/actions-test/:/app
       - ./playwright-report:/app/playwright-report
     container_name: playwright-test
     network_mode: host
-    profiles:
-      - e2e
     command: npx playwright test --workers 4 --trace on
     depends_on:
       client-e2e:
@@ -113,4 +101,3 @@ services:
 
 volumes:
   postgres-db-volume:
-  app-volume:
