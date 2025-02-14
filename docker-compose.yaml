@@ -21,7 +21,7 @@ services:
       - POSTGRES_PORT=5432
       - POSTGRES_DATABASE=database
     volumes:
-      - app-volume:/app
+      - ./app:/app
       - /app/node_modules
       - /app/.next
 
@@ -52,7 +52,6 @@ services:
       - POSTGRES_PORT=5432
       - POSTGRES_DATABASE=database
     volumes:
-      - app-volume:/app
       - /app/node_modules
       - /app/.next
 
